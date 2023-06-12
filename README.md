@@ -125,7 +125,7 @@ b.SetValue(Grid.RowProperty, j);
 b.SetValue(Grid.ColumnProperty, i);
 GRDGame.Children.Add(b);
 ```
-Dans cet exemple, "b" est un contrôle de type <span style="color:purple">Border</span> mais ça ne suffira pas. Il te faudra ajouter à chaque "b", une nouvelle <span style="color:green">grille</span> contenant un nouveau Label et un nouveau <span style="color:blue">Button</span>. Au départ, le Label sera invisible et seul le Button sera visible. En cliquant sur le Button, la procédure événementielle qui contrôle la logique du jeu sera déclenchée. Cela aura pour effet (entre autres) de rendre le Button invisible et de révèler le Label et sa valeur.
+Dans cet exemple, "b" est un contrôle de type <span style="color:purple">Border</span> (en violet dans l'image en dessous) mais ça ne suffira pas. Il te faudra ajouter à chaque "b", une nouvelle <span style="color:green">grille</span> (en vert) contenant un nouveau Label (en blanc, mais caché) et un nouveau <span style="color:blue">Button</span> (en bleu). Au départ, le Label sera invisible et seul le Button sera visible. En cliquant sur le Button, la procédure événementielle qui contrôle la logique du jeu sera déclenchée. Cela aura pour effet (entre autres) de rendre le Button invisible et de révèler le Label et sa valeur.
 
 <img src="./img/minesweeperTuto.png" width="60%"/>
 
