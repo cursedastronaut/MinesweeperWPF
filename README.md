@@ -159,7 +159,9 @@ Je vais te présenter le principe générale de cette fonction.
 
 Ici, on imagine que j’ai cliqué sur le bouton situé aux coordonnées (column, row). Je dois donc appeler cette procédure verifieCellule qui va vérifier s’il y avait une bombe à ces coordonnées. 
 - S’il y a une bombe, alors l’algorithme s’arrête et la partie est perdue. 
-- S’il n’y en a pas, je dois enlever le bouton (le rendre invisible) afin d’afficher le nombre de bombes voisines (ce nombre se trouve dans matriceBoard) et je dois ensuite rappeler verifieCellule sur toutes les cases voisines ! C’est ici que se trouve l’aspect récursif de cette fonction !
+- S’il n’y en a pas, je dois enlever le bouton (le rendre invisible) afin d’afficher le nombre de bombes voisines (en rendant visible le Label et en mettant le nombre correspondant depuis la matrice).
+    - Si ce nombre est supérieur à zéro, alors on s'arrête là.
+    - Si ce nombre est égale à zéro, je dois alors rappeler verifieCellule sur toutes les cases voisines ! C’est ici que se trouve l’aspect récursif de cette fonction !
 
 Tu feras attention au moment de vérifier une cellule voisine que ses coordonnées ne soient pas en dehors de la grille (le pseudo-code te montre comment faire, la fonction Max renvoie la plus grande valeur entre 2 valeurs et la fonction Min renvoie la plus petite valeur entre 2 valeurs, ces deux fonctions existent en C# dans la bibliothèque Math).
 
