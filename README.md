@@ -13,9 +13,9 @@ Avancer dans les études, c'est comme avancer dans un champ de mines. Il faut pr
 
 Voici des exemples de jeux du démineur, qui était un jeu classique intégré de Windows dans ses précédentes versions. Celui-ci n’est plus intégré mais on trouve beaucoup de versions alternatives:
 
-<img src="./img/minesweeper1.png" width="30%"/>
-<img src="./img/minesweeper2.png" width="30%"/>
-<img src="./img/minesweeper3.png" width="30%"/>
+<img src="./img/minesweeper1.png" height="100"/>
+<img src="./img/minesweeper2.png" height="100"/>
+<img src="./img/minesweeper3.png" height="100"/>
 
 #### Le but du jeu est le suivant :  
 Le joueur joue sur une grille dont les cellules sont toutes masquées au démarrage (et dont certaines peuvent contenir des bombes) et doit révéler toutes les cellules qui ne contiennent pas de bombes. Dans certaines versions, on considère qu’il doit le faire le plus vite possible.
@@ -98,7 +98,7 @@ Tu vas avoir besoin d'écrire une procédure qui réinitialise le jeu. Cette pro
 - Remplir la grille des contrôles dont tu as besoin
 - Placer aléatoirement des bombes en mettant à jour la matrice
 
-Le début de cette procédure de réinitialisation devrait ressembler à ça :
+Le début de cette procédure de réinitialisation devrait ressembler à ça (on considère que l'on a la grille GRDGame qui a été ajoutée dans le XAML) :
 ```
 matrix = new int[gridSize, gridSize];
 numCellOpen = 0;
@@ -115,7 +115,7 @@ Observe comment la grille est vidée de ses enfants, de ses définitions de lign
 
 ### Remplir la grille
 
-Ensuite, tu vas avoir besoin de faire une boucle qui, à chaque tour de boucle, va créer le contenu d’une cellule et l’ajouter à la grille. Il s’agit en réalité d’une double boucle puisque tu vas devoir boucler sur les colonnes (i) et sur les lignes (j).
+Ensuite, tu vas avoir besoin de faire une boucle qui, à chaque tour de boucle, va créer le contenu d’une cellule et l’ajouter à la <span style="color:green">grille</span>. Il s’agit en réalité d’une double boucle puisque tu vas devoir boucler sur les colonnes (i) et sur les lignes (j).
 
 ```
 Border b = new Border();
@@ -125,7 +125,9 @@ b.SetValue(Grid.RowProperty, j);
 b.SetValue(Grid.ColumnProperty, i);
 GRDGame.Children.Add(b);
 ```
-Dans cet exemple, "b" est un contrôle de type Border mais ça ne suffira pas. Il te faudra ajouter à chaque "b", une nouvelle grille contenant un nouveau Label et un nouveau Button. Au départ, le Label sera invisible et seul le Button sera visible. En cliquant sur le Button, le Button devient invisible et révèle le Label qui nous montre ce qui se cachait en dessous.
+Dans cet exemple, "b" est un contrôle de type <span style="color:purple">Border</span> mais ça ne suffira pas. Il te faudra ajouter à chaque "b", une nouvelle <span style="color:green">grille</span> contenant un nouveau Label et un nouveau <span style="color:blue">Button</span>. Au départ, le Label sera invisible et seul le Button sera visible. En cliquant sur le Button, le Button devient invisible et révèle le Label qui nous montre ce qui se cachait en dessous.
+
+<img src="./img/minesweeperTuto.png" width="60%"/>
 
 Il ne faudra pas oublier d'assigner à ce Button, juste après l'avoir instancié, la procédure événementielle qui réalise la logique du jeu.
 
