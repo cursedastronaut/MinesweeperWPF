@@ -125,11 +125,11 @@ b.SetValue(Grid.RowProperty, j);
 b.SetValue(Grid.ColumnProperty, i);
 GRDGame.Children.Add(b);
 ```
-Dans cet exemple, "b" est un contrôle de type <span style="color:purple">Border</span> mais ça ne suffira pas. Il te faudra ajouter à chaque "b", une nouvelle <span style="color:green">grille</span> contenant un nouveau Label et un nouveau <span style="color:blue">Button</span>. Au départ, le Label sera invisible et seul le Button sera visible. En cliquant sur le Button, la procédure événementielle qui sera déclenchée devra rendre le Button invisible et révèler le Label et sa valeur (en plus de réaliser la suite de la logique du jeu, l'appel récursif).
+Dans cet exemple, "b" est un contrôle de type <span style="color:purple">Border</span> mais ça ne suffira pas. Il te faudra ajouter à chaque "b", une nouvelle <span style="color:green">grille</span> contenant un nouveau Label et un nouveau <span style="color:blue">Button</span>. Au départ, le Label sera invisible et seul le Button sera visible. En cliquant sur le Button, la procédure événementielle qui contrôle la logique du jeu sera déclenchée. Cela aura pour effet (entre autres) de rendre le Button invisible et de révèler le Label et sa valeur.
 
 <img src="./img/minesweeperTuto.png" width="60%"/>
 
-Il ne faudra pas oublier d'assigner à ce Button, juste après l'avoir instancié, la procédure événementielle qui réalise la logique du jeu.
+Pour cela, il faudra bien penser à assigner à ce Button, juste après l'avoir instancié, la procédure événementielle qui réalise cette logique du jeu.
 
 ### Position dans la grille
 
