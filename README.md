@@ -20,14 +20,23 @@ Voici des exemples de jeux du démineur, qui était un jeu classique intégré d
 #### Le but du jeu est le suivant :  
 Le joueur joue sur une grille dont les cellules sont toutes masquées au démarrage (et dont certaines peuvent contenir des bombes) et doit révéler toutes les cellules qui ne contiennent pas de bombes. Dans certaines versions, on considère qu’il doit le faire le plus vite possible.
  
-Pour faire cela, il peut cliquer sur une cellule afin de révéler son contenu. Si la cellule cliquée contenait une bombe, la partie est immédiatement perdue. 
- 
+<img src="./img/demoMS1.png" width="30%"/>
+
+Pour faire cela, il peut cliquer sur une cellule afin de révéler son contenu. Si la cellule cliquée contenait une bombe, la partie est immédiatement perdue.
+
+<img src="./img/demoMS2.png" width="30%"/>
+
 Si la cellule cliquée ne contenait pas de bombe, alors la partie peut continuer et la grille se découvre en réalisation la vérification suivante :
 - Si la cellule cliquée (qui ne contenait pas de bombe donc) possède au moins une bombe dans son voisinage immédiat (une case autour dans toutes les directions, même les diagonales) alors cette cellule révèle le nombre de bombes dans ce voisinage immédiat et on s’arrête là.
 - En revanche, si la cellule cliquée n’a aucune bombe dans ses voisins immédiats, alors celle-ci révèle une case vide, et le jeu va effectuer la vérification sur ses voisins immédiats également. De voisin en voisin, si beaucoup de cases visitées sont vides et non entourées de bombes, on peut révéler en un click un grand morceau de la grille
- 
+
+<img src="./img/demoMS3.png" width="30%"/>
+
 Il y a un peu de chance à avoir au démarrage car on a aucun indice pour savoir où cliquer, mais une fois que l’on a révélé des nombres, le but du jeu est d’utiliser ces nombres pour déduire où sont probablement les bombes.
-  
+
+<img src="./img/demoMS3.png" width="30%"/>
+<img src="./img/demoMS4.png" width="30%"/>
+
 De déduction en déduction, on va essayer de découvrir toutes les cellules (vides et numérotées) qui ne contiennent pas de bombes.
  
 
