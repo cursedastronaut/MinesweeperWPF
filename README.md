@@ -141,7 +141,7 @@ int col = Grid.GetColumn(b);
 int row = Grid.GetRow(b);
 ```
 
-En cadeau, une procédure qui retrouve le contrôle situé dans une grille à des coordonnées données :
+En cadeau, une fonction qui retourne le contrôle situé dans une grille à des coordonnées données :
 ```
 private UIElement GetUIElementFromPosition(Grid g, int col, int row)
 {
@@ -149,9 +149,45 @@ private UIElement GetUIElementFromPosition(Grid g, int col, int row)
 }
 ```
 
-### Algorithme récursif
+### Pseudo-code de l'algorithme récursif
 
-Le gros morceau du démineur est son algorithme récursif, cela veut dire que nous avons une méthode qui s'appelle elle-même.
+Le gros morceau du démineur est son algorithme récursif, cela veut dire que nous avons une méthode qui s'appelle elle-même. Nous appelerons cette fonction verifieCellule dans la suite du document.
+
+Je vais te présenter le principe générale de cette fonction.
+
+Ici, on imagine que j’ai cliqué sur le bouton situé aux coordonnées (column, row). Je dois donc appeler cette procédure verifieCellule qui va vérifier s’il y avait une bombe à ces coordonnées. 
+- S’il y a une bombe, alors l’algorithme s’arrête et la partie est perdue. 
+- S’il n’y en a pas, je dois enlever le bouton (le rendre invisible) afin d’afficher le nombre de bombes voisines (ce nombre se trouve dans matriceBoard) et je dois ensuite rappeler verifieCellule sur toutes les cases voisines ! C’est ici que se trouve l’aspect récursif de cette fonction !
+
+Tu feras attention au moment de vérifier une cellule voisine que ses coordonnées ne soient pas en dehors de la grille (le pseudo-code te montre comment faire, la fonction Max renvoie la plus grande valeur entre 2 valeurs et la fonction Min renvoie la plus petite valeur entre 2 valeurs, ces deux fonctions existent en C# dans la bibliothèque Math).
+
+#### Pseudo-Code 
+procedure verifieCellule(entier column, entier row)
+{
+    SI la case n’a pas déjà été vérifiée (le bouton est toujours visible/actif)
+        ALORS {
+            On cache/désactive le bouton et on affiche la valeur de cette cellule
+            SI la case est une bombe 
+                ALORS{partie perdue et on réinitialise le jeu}
+	            SINON{ 
+                    SI c’était la dernière case à ouvrir 
+                    ALORS {partie gagnée et on réinitialise le jeu}
+                    SINON{
+                        //On vérifie la valeur de cette cellule
+                        SI matrice[column,row] est égale à 0 (pas de bombes autour) 
+                        ALORS{	
+                        // la procédure s’appelle ensuite elle-même sur les cellules voisines
+                            POUR i de Max(0, column-1) à Min(tailleGrille -1, column+1) {
+				                POUR j de Max(0, row-1) à Min(tailleGrille -1, row+1){
+					                verifieCellule(i,j)
+				                }
+			                }
+		                }
+                    }
+		        }
+	    }
+}
+
 
 ### Remettre ton travail
 N'oublie pas de soumettre ton travail avec la commande :
