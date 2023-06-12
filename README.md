@@ -13,9 +13,9 @@ Avancer dans les études, c'est comme avancer dans un champ de mines. Il faut pr
 
 Voici des exemples de jeux du démineur, qui était un jeu classique intégré de Windows dans ses précédentes versions. Celui-ci n’est plus intégré mais on trouve beaucoup de versions alternatives:
 
-<img src="./img/minesweeper1.png" height="100"/>
-<img src="./img/minesweeper2.png" height="100"/>
-<img src="./img/minesweeper3.png" height="100"/>
+<img src="./img/minesweeper1.png" height="200"/>
+<img src="./img/minesweeper2.png" height="200"/>
+<img src="./img/minesweeper3.png" height="200"/>
 
 #### Le but du jeu est le suivant :  
 Le joueur joue sur une grille dont les cellules sont toutes masquées au démarrage (et dont certaines peuvent contenir des bombes) et doit révéler toutes les cellules qui ne contiennent pas de bombes. Dans certaines versions, on considère qu’il doit le faire le plus vite possible.
@@ -125,7 +125,7 @@ b.SetValue(Grid.RowProperty, j);
 b.SetValue(Grid.ColumnProperty, i);
 GRDGame.Children.Add(b);
 ```
-Dans cet exemple, "b" est un contrôle de type <span style="color:purple">Border</span> mais ça ne suffira pas. Il te faudra ajouter à chaque "b", une nouvelle <span style="color:green">grille</span> contenant un nouveau Label et un nouveau <span style="color:blue">Button</span>. Au départ, le Label sera invisible et seul le Button sera visible. En cliquant sur le Button, le Button devient invisible et révèle le Label qui nous montre ce qui se cachait en dessous.
+Dans cet exemple, "b" est un contrôle de type <span style="color:purple">Border</span> mais ça ne suffira pas. Il te faudra ajouter à chaque "b", une nouvelle <span style="color:green">grille</span> contenant un nouveau Label et un nouveau <span style="color:blue">Button</span>. Au départ, le Label sera invisible et seul le Button sera visible. En cliquant sur le Button, la procédure événementielle qui sera déclenchée devra rendre le Button invisible et révèler le Label et sa valeur (en plus de réaliser la suite de la logique du jeu, l'appel récursif).
 
 <img src="./img/minesweeperTuto.png" width="60%"/>
 
