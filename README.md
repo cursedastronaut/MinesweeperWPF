@@ -163,16 +163,16 @@ Tu feras attention au moment de vérifier une cellule voisine que ses coordonné
 
 #### Pseudo-Code 
 ```
-procedure verifieCellule(entier column, entier row)
+fonction Booleen verifieCellule(entier column, entier row)
 {
     SI la case n’a pas déjà été vérifiée (le bouton est toujours visible/actif)
     ALORS {
         On cache/désactive le bouton et on affiche la valeur de cette cellule
         SI la case est une bombe 
-        ALORS{ partie perdue et on réinitialise le jeu }
+        ALORS{ partie perdue et on réinitialise le jeu; retourne VRAI }
         SINON{ 
             SI c’était la dernière case à ouvrir 
-            ALORS{ partie gagnée et on réinitialise le jeu }
+            ALORS{ partie gagnée et on réinitialise le jeu ; retourne VRAI}
             SINON{
                 //On vérifie la valeur de cette cellule
                 SI matrice[column,row] est égale à 0 (pas de bombes autour) 
@@ -180,13 +180,16 @@ procedure verifieCellule(entier column, entier row)
                     // la procédure s’appelle ensuite elle-même sur les cellules voisines
                     POUR i de Max(0, column-1) à Min(tailleGrille -1, column+1) {
                         POUR j de Max(0, row-1) à Min(tailleGrille -1, row+1){
-                            verifieCellule(i,j)
+                            Booleen resultat = verifieCellule(i,j)
+                            SI resultat est égal à VRAI
+                            ALORS{ retourne VRAI }
                         }
                     }
                 }
             }
         }
     }
+    retourne FAUX
 }
 ```
 ### Remettre ton travail
