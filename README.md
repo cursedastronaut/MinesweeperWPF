@@ -3,7 +3,7 @@
 Dans ce TP, nous allons manipuler depuis le code l'ajout et la suppression de contrôles afin de rendre notre application dynamique, et nous allons nous appuyer sur les Layouts pour gérer leur positionnement automatique.
 
 ## Travail à rendre
-A la fin des deux séances (un total de 4 heures de travail), vous devrez soumettre votre projet à l'aide de travo.
+A la fin des trois séances (un total de 6 heures de travail), vous devrez soumettre votre projet à l'aide de travo.
 
 ## Le sujet
 
