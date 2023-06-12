@@ -52,7 +52,7 @@ Attention, il y a deux défis majeurs dans ce travail. Tu auras besoin d’aller
 Comme tu peux le voir, il y a 3 séances pour ce TP, car il y a plusieurs difficultés. Essaye de te donner des objectifs pour chaque séance. Par exemple :
 - 1ère séance : avoir une grille dynamique de contrôles au démarrage de l’application ainsi que le placement aléatoire des bombes dans le jeu (sans la logique du jeu encore).
 - 2ème séance : avoir les principaux algorithmes de jeu d’implémentés
-- 3ème séance : avoir le menu permettant de configurer la taille de la grille, le nombre de bombes et de relancer une nouvelle partie. Profites-en pour personnaliser aussi ton jeu avec tes couleurs ou tes animations si tu le souhaites !
+- 3ème séance : avoir le menu permettant de configurer la taille de la grille, le nombre de bombes et de relancer une nouvelle partie. Profites-en pour personnaliser aussi ton jeu avec tes couleurs ou tes animations!
 
 
 ## Récupérer le projet à l'aide de travo
