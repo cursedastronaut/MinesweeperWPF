@@ -162,6 +162,7 @@ Ici, on imagine que j’ai cliqué sur le bouton situé aux coordonnées (column
 Tu feras attention au moment de vérifier une cellule voisine que ses coordonnées ne soient pas en dehors de la grille (le pseudo-code te montre comment faire, la fonction Max renvoie la plus grande valeur entre 2 valeurs et la fonction Min renvoie la plus petite valeur entre 2 valeurs, ces deux fonctions existent en C# dans la bibliothèque Math).
 
 #### Pseudo-Code 
+```
 procedure verifieCellule(entier column, entier row)
 {
     SI la case n’a pas déjà été vérifiée (le bouton est toujours visible/actif)
@@ -187,8 +188,7 @@ procedure verifieCellule(entier column, entier row)
 		        }
 	    }
 }
-
-
+```
 ### Remettre ton travail
 N'oublie pas de soumettre ton travail avec la commande :
 ```
