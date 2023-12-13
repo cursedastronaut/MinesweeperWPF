@@ -1,0 +1,13 @@
+variables:
+  DOTNET_IMAGE: mcr.microsoft.com/dotnet/sdk:latest
+  
+stages:
+  - build
+
+build_job:
+  stage: build
+  image: $DOTNET_IMAGE
+  
+  script:
+    #- pwsh -Command '& dotnet restore'  # restore Nuget dependencies
+    - pwsh -Command '& dotnet build /p:EnableWindowsTargeting=true'  # build the project
