@@ -55,22 +55,45 @@ Comme tu peux le voir, il y a 3 séances pour ce TP, car il y a plusieurs diffic
 - 3ème séance : avoir le menu permettant de configurer la taille de la grille, le nombre de bombes et de relancer une nouvelle partie. Profites-en pour personnaliser aussi ton jeu avec tes couleurs ou tes animations!
 
 
-## Récupérer le projet à l'aide de travo
+## (1) Récupérer le projet à l'aide de **travo**
+<details>
+  <summary>Voir les instructions pour récupérer et soumettre le projet (*important*)</summary> 
 
-Pour récupérer le projet et le soumettre à la fin de la séance, vous allez devoir utiliser travo.
-travo est un ensemble de scripts Python maintenu par des enseignants-chercheurs de Paris-Saclay et du Québec facilitant l'utilisation de GIT pour les enseignants. En fait les commandes travo effectuent un ensemble de commande GIT pour vous.
-A l'aide d'un terminal PowerShell, tapez la commande suivante pour récupérer le projet :
-```
-travow fetch https://git.iut-orsay.fr/tpihm/tpihm6
-```
+> Pour récupérer le projet et le soumettre à la fin des deux séances, vous allez devoir utiliser le script **travo** fourni par le responsable du module. Télécharger ce script [**travoIHM.py**](https://ihm.gitpages.iut-orsay.fr/cours/travoIHM.py) dans votre espace personnel (queque part dans le lecteur Z:).
+> 
+> > **travo** est un ensemble de scripts Python maintenu par des enseignants chercheurs de Paris-Saclay et du Québec facilitant l'utilisation de GIT pour les enseignants. En fait les commandes **travo** effectuent un ensemble de commande GIT pour vous. **travo** ainsi que Python sont déjà installés sur les ordinateurs de l'IUT.
+> > 
+> > Vous pouvez utiliser votre propre ordinateur et installer **travo** dessus (à condition d'avoir installé Python au préalable bien sûr) à l'aide de la commande: 
+> > ```
+> > pip install travo
+> > ```
+> 
+> Sur l'ordinateur de l'IUT, rendez-vous dans le répertoire C:\WinPython et lancer le programme "WinPython Powershell Prompt.exe", un terminal Powershell va s'ouvrir, prêt à recevoir des commandes Python.
+> A l'intérieur de ce terminal PowerShell, tapez d'abord la commande suivante, vous permettant de vous déplacer dans > votre espace personnel :
+> 
+> ```
+> cd Z:\
+> ```
+> 
+> Si vous tapez la commande **ls**, vous devriez voir dans la liste des fichiers de ce répertoire, le script **travoIHM.py** que vous avez téléchargé précédemment (bien sûr, vous pouvez travailler dans un autre répertoire que la racine du répertoire Z:).
+> 
+> Enfin, pour récupérer le projet, il vous suffit de taper la commande :
+> 
+> ```
+> python travoIHM.py fetch tpihm6
+> ```
+> 
+> Il vous sera demandé vos identifiants ADONIS (de l'IUT) puis le projet sera téléchargé sur votre ordinateur (dans le répertoire "tpihm6"). 
+> 
+> Sauvegarder ou soumettre votre travail à l'enseignant se fera à l'aide de la commande : 
+> ```
+> python travoIHM.py submit tpihm6 ####
+> ```
+> Il vous faut remplacer #### par votre identifiant de groupe **tp2a** ou **tp2b** etc... Ne vous trompez pas de groupe, ce sera des points en moins
+> 
+> Vous pouvez faire autant de "submit" que vous voulez. C'est une bonne pratique pour ne pas perdre votre travail.
 
-Il vous sera demandé vos identifiants ADONIS (de l'IUT) puis le projet sera téléchargé sur votre ordinateur (dans le répertoire "tpihm6"). Si vous êtes à l'aise avec GIT, vous pouvez voir qu'en réalité, vous allez travailler sur un fork (une copie dans votre espace) du projet de l'enseignant. Vous pouvez effectuer vous mêmes les commit et les push dans votre fork, mais il est plus simple d'utiliser les commandes travo pour l'instant.
-Sauvegarder ou soumettre votre travail se fera donc ensuite à l'aide de la commande :
-```
-travow submit tpihm6
-```
-
-Vous pouvez faire autant de "submit" que vous voulez. C'est une bonne pratique pour ne pas perdre votre travail.
+</details>
 
 ## Conseils
 
@@ -197,7 +220,8 @@ fonction Booleen verifieCellule(entier column, entier row)
 }
 ```
 ### Remettre ton travail
-N'oublie pas de soumettre ton travail avec la commande :
+N'oublie pas de soumettre ton travail à l'enseignant avec la commande **travo** 
 ```
-travow submit tpihm6
+python travoIHM.py submit tpihm6 ####
 ```
+> en remplaçant #### par ton identifiant de groupe **tp2a** ou **tp2b** etc... Encore une fois, ne te trompe pas de groupe...
