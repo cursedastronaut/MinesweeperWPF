@@ -1,0 +1,1 @@
+# Lab6 - The dynamic minesweeper
