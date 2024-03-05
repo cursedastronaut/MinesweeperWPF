@@ -92,6 +92,16 @@ Comme tu peux le voir, il y a 3 séances pour ce TP, car il y a plusieurs diffic
 > Il vous faut remplacer #### par votre identifiant de groupe **tp2a** ou **tp2b** etc... Ne vous trompez pas de groupe, ce sera des points en moins
 > 
 > Vous pouvez faire autant de "submit" que vous voulez. C'est une bonne pratique pour ne pas perdre votre travail.
+>
+> > ### Ajouter un fichier à un projet récupéré
+> > 
+> > La plupart des projets que vous allez récupérer avec travo contient a priori tous les fichiers dont vous avez besoin. Cependant il est possible que vous ayez besoin d'ajouter des fichiers (des images, des sons, des classes, que sais-je...) à vos projets, afin qu'ils se retrouvent sur le Git.
+> > 
+> > **travo** ne regarde pas s'il y a de nouveaux fichiers dans vos projets.
+> > 
+> > Cependant, vous pouvez tout à fait utiliser les commandes **git add** que vous avez dû voir en cours de [Qualité de développement](https://hoangla95.github.io/qualitedevs2/tp1) en vous plaçant dans le répertoire du projet.
+> >
+> > Une fois les fichiers ajoutés avec la commande **git add**, travo les prendra en compte lors du **submit**.
 
 </details>
 
