@@ -1,53 +1,52 @@
 # Lab6 - The dynamic minesweeper
 
-Dans ce TP, nous allons manipuler depuis le code l'ajout et la suppression de contrôles afin de rendre notre application dynamique, et nous allons nous appuyer sur les Layouts pour gérer leur positionnement automatique.
+In this lab, we'll use code to add and remove controls to make our application dynamic, and we'll use Layouts to manage their automatic positioning.
 
-## Travail à rendre
-A la fin des trois séances (un total de 6 heures de travail), vous devrez soumettre votre projet à l'aide de travo.
+# Work to hand in
+At the end of the three sessions (a total of 6 hours' work), you'll be asked to submit your project using **travo**.
 
-## Le sujet
+## The topic
 
-Avancer dans les études, c'est comme avancer dans un champ de mines. Il faut prendre son temps pour analyser son environnement afin de ne pas se précipiter sur une mauvaise réponse. C'est une leçon importante, c'est pourquoi la direction de l'IUT souhaite vous la faire rentrer dans la tête en réalisant un jeu de démineur.
+Advancing in your studies is like advancing through a minefield. You have to take your time to analyze your environment, in order not to rush to the wrong answer. It's an important lesson, and that's why the IUT management wants to get it into your head by creating a minesweeper game.
 
-### Le démineur?
+### A minesweeper?
 
-Voici des exemples de jeux du démineur, qui était un jeu classique intégré de Windows dans ses précédentes versions. Celui-ci n’est plus intégré mais on trouve beaucoup de versions alternatives:
+Here are some examples of games for the Minesweeper, which was a classic Windows game in previous versions. It is no longer integrated, but there are many alternative versions:
 
 <img src="./img/minesweeper1.png" height="200"/>
 <img src="./img/minesweeper2.png" height="200"/>
 <img src="./img/minesweeper3.png" height="200"/>
 
-#### Le but du jeu est le suivant :  
-Le joueur joue sur une grille dont les cellules sont toutes masquées au démarrage (et dont certaines peuvent contenir des bombes) et doit révéler toutes les cellules qui ne contiennent pas de bombes. Dans certaines versions, on considère qu’il doit le faire le plus vite possible.
+#### The aim of the game is as follows:  
+The player plays on a grid whose cells are all hidden at start-up (some of which may contain bombs) and must reveal all cells that do not contain bombs. In some versions, this is supposed to be done as fast as possible.
  
 <img src="./img/demoMS1.JPG" width="30%"/>
 
-Pour faire cela, il peut cliquer sur une cellule afin de révéler son contenu. Si la cellule cliquée contenait une bombe, la partie est immédiatement perdue.
+To do this, they can click on a cell to reveal its contents. If the clicked cell contains a bomb, the game is immediately lost.
 
 <img src="./img/demoMS2.JPG" width="30%"/>
 
-Si la cellule cliquée ne contenait pas de bombe, alors la partie peut continuer et la grille se découvre en réalisation la vérification suivante :
-- Si la cellule cliquée (qui ne contenait pas de bombe donc) possède au moins une bombe dans son voisinage immédiat (une case autour dans toutes les directions, même les diagonales) alors cette cellule révèle le nombre de bombes dans ce voisinage immédiat et on s’arrête là.
-- En revanche, si la cellule cliquée n’a aucune bombe dans ses voisins immédiats, alors celle-ci révèle une case vide, et le jeu va effectuer la vérification sur ses voisins immédiats également. De voisin en voisin, si beaucoup de cases visitées sont vides et non entourées de bombes, on peut révéler en un click un grand morceau de la grille
+If the clicked cell did not contain a bomb, then the game can continue and part of the grid is uncovered by performing the following check:
+- If the clicked cell (which didn't contain a bomb) has at least one bomb in its immediate vicinity (one cell around in all directions, even diagonally), then this cell reveals the number of bombs in this immediate vicinity and we stop there.
+- On the other hand, if the clicked cell has no bombs in its immediate vicinity, then it reveals an empty square, and the game checks its immediate neighbors as well. From neighbor to neighbor, if many of the cells visited are empty and not surrounded by bombs, then a large part of the grid can be revealed with a single click.
 
 <img src="./img/demoMS3.JPG" width="30%"/>
 
-Il y a un peu de chance à avoir au démarrage car on a aucun indice pour savoir où cliquer, mais une fois que l’on a révélé des nombres, le but du jeu est d’utiliser ces nombres pour déduire où sont probablement les bombes.
+There's a bit of luck involved at the start, as there are no clues as to where to click, but once numbers have been revealed, the aim of the game is to use these numbers to deduce where the bombs are likely to be.
 
 <img src="./img/demoMS3.JPG" width="30%"/>
 <img src="./img/demoMS4.JPG" width="30%"/>
 
-De déduction en déduction, on va essayer de découvrir toutes les cellules (vides et numérotées) qui ne contiennent pas de bombes.
+From deduction to deduction, we'll try to find all the cells (empty and numbered) that don't contain bombs.
  
+## Objectives :
 
-## Objectifs :
+Your application must allow you to manipulate certain parameters before starting a new game. In particular, the user needs to be able to choose the size of the grid (you can use square grids only, for simplicity) and the number of bombs.
 
-Ton application doit permettre de pouvoir manipuler certains paramètres avant de lancer une nouvelle partie. En particulier, on doit pouvoir choisir la taille de la grille (tu peux utiliser que des grilles carrées pour simplifier) et le nombre de bombes.
+There are two major challenges in this job and you'll need to find information in the documentation / on the Internet to handle them : 
 
-Attention, il y a deux défis majeurs dans ce travail. Tu auras besoin d’aller chercher de l’information dans la documentation / sur Internet.
-
-- Le premier, c’est de correctement mettre en œuvre la création dynamique de contrôles. L’idée c’est qu’au début de chaque partie, tu créés une nouvelle grille de contrôles. Il te faudra donc le faire depuis le code et il faudra penser à assigner à ces contrôles créés dynamiquement la procédure événementielle que tu écriras et qui fera appel aux algorithmes du jeu.
-- Le second, ce sont les algorithmes permettant de faire fonctionner correctement le jeu. En particulier, l’algorithme qui parcourt les voisins d’une cellule cliquée qui n’est pas trivial. Il s’agit d’un algorithme récursif, c’est-à-dire un algorithme qui s’appelle lui-même. Tu n’as pas encore vu ce type d’algorithme mais des aides te sont fournies dans la suite du document.
+- The first is to correctly implement the dynamic creation of controls. The idea is that, at the start of each game, you create a new grid of controls. You'll need to do this from the code and you'll have to assign to these dynamically created controls the event-driven procedure you'll write, which will call the game's algorithms.
+- The second challenge involves the algorithms that allow the game to function correctly. In particular, the algorithm that traverses the neighbors of a clicked cell is not trivial. This is a recursive algorithm, i.e. one that calls itself. You haven't yet seen this type of algorithm, but we'll give you a few hints later in this document.
 
 Comme tu peux le voir, il y a 3 séances pour ce TP, car il y a plusieurs difficultés. Essaye de te donner des objectifs pour chaque séance. Par exemple :
 - 1ère séance : avoir une grille dynamique de contrôles au démarrage de l’application ainsi que le placement aléatoire des bombes dans le jeu (sans la logique du jeu encore).
