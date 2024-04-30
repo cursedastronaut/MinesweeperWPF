@@ -48,15 +48,14 @@ There are two major challenges in this job and you'll need to find information i
 - The first is to correctly implement the dynamic creation of controls. The idea is that, at the start of each game, you create a new grid of controls. You'll need to do this from the code and you'll have to assign to these dynamically created controls the event-driven procedure you'll write, which will call the game's algorithms.
 - The second challenge involves the algorithms that allow the game to function correctly. In particular, the algorithm that traverses the neighbors of a clicked cell is not trivial. This is a recursive algorithm, i.e. one that calls itself. You haven't yet seen this type of algorithm, but we'll give you a few hints later in this document.
 
-Comme tu peux le voir, il y a 3 séances pour ce TP, car il y a plusieurs difficultés. Essaye de te donner des objectifs pour chaque séance. Par exemple :
-- 1ère séance : avoir une grille dynamique de contrôles au démarrage de l’application ainsi que le placement aléatoire des bombes dans le jeu (sans la logique du jeu encore).
-- 2ème séance : avoir les principaux algorithmes de jeu d’implémentés
-- 3ème séance : avoir le menu permettant de configurer la taille de la grille, le nombre de bombes et de relancer une nouvelle partie. Profites-en pour personnaliser aussi ton jeu avec tes couleurs ou tes animations!
+As you can see, there are 3 sessions for this Lab, as there are several difficulties. Try to set objectives for each session. For example:
+- 1st session: have a dynamic grid of controls when the application starts up, as well as the random placement of bombs in the game (without the game logic yet).
+- 2nd session: have the main game algorithms implemented.
+- 3rd session: get the menu for configuring the grid size, the number of bombs and restarting a new game. You can also customize your game with your own colors and animations!
 
-
-## (1) Récupérer le projet à l'aide de **travo**
+## (1) Retrieve the project using **travo**
 <details>
-  <summary>Voir les instructions pour récupérer et soumettre le projet (*important*)</summary> 
+    <summary>See instructions here to retrieve and submit the project (important).</summary> 
 
 > Pour récupérer le projet et le soumettre à la fin des deux séances, vous allez devoir utiliser le script **travo** fourni par le responsable du module. Télécharger ce script [**travoIHM.py**](https://ihm.gitpages.iut-orsay.fr/cours/travoIHM.py) dans votre espace personnel (quelque part dans le lecteur Z:).
 > 
