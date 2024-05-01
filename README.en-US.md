@@ -103,33 +103,33 @@ As you can see, there are 3 sessions for this Lab, as there are several difficul
 
 </details>
 
-## Conseils
+## Advice
 
-Mon premier conseil est de mettre de côté les algorithmes du jeu pour commencer. Concentre toi pour faire apparaitre une grille de boutons, et faire en sorte que lorsque tu cliques sur chaque bouton, cela affiche sa coordonnée dans un MessageBox. Pour la première séance, c'est très bien!
+My first piece of advice is to set aside the game's algorithms to get started. Concentrate on making a grid of buttons appear, so that when you click on each button, it displays its coordinate in a MessageBox. This is great for the first session!
 
-### Attributs
+### Attributes
 
-Voici quelques éléments qui peuvent t'aider pour ton application. Tout d'abord, tu auras surement besoin d'ajouter quelques attributs à ta classe qui te permettront de suivre l'état de la partie :
+Here are a few things that can help you with your application. First of all, you'll probably need to add some attributes to your class that will allow you to track the state of the game:
 ```
 private int gridSize = 10;
 private int numMine = 10;
 private int numCellOpen = 0;
 private int[,] matrix;
 ```
-La matrice à deux dimensions sert à conserver les valeurs de chaque case:
-- -1, cette case contient une bombe
-- 0, cette case est vide et aucune case voisine ne contient une bombe
-- n, avec n>0, cette case est vide et il y a n cases voisines autour qui contiennent une bombe
+The two-dimensional matrix is used to store the values of each cell:
+- -1, this cell contains a bomb
+- 0, this cell is empty and no neighboring cell contains a bomb
+- n, with n>0, this square is empty and there are n neighboring squares around it containing a bomb
 
-Tu pourrais stocker ces valeurs directement dans les contrôles que tu vas ajouter à ton application (dans la propriété "Content" du "Label" présent dans la grille par exemple), mais tu verras que c'est plus pratique d'utiliser une structure dédiée à laquelle tu pourras te référer depuis n'importe où dans le code.
+You could store these values directly in the controls you're going to add to your application (in the "Content" property of the "Label" present in the grid, for example), but you'll see that it's more practical to use a dedicated structure to which you can refer from anywhere in the code.
 
-### Procédure d'initialisation
-Tu vas avoir besoin d'écrire une procédure qui réinitialise le jeu. Cette procédure doit notamment :
-- Réinitialiser la grille et remettre les compteurs à zéro
-- Remplir la grille des contrôles dont tu as besoin
-- Placer aléatoirement des bombes en mettant à jour la matrice
+### Initialization procedure
+You'll need to write a procedure that resets the game. Among other things, this procedure must:
+- Reinitialize the grid and reset counters to zero
+- Fill the grid with the controls you need
+- Randomly place bombs by updating the matrix.
 
-Le début de cette procédure de réinitialisation devrait ressembler à ça (on considère que l'on a la grille GRDGame qui a été ajoutée dans le XAML) :
+The begining of this initialization procedure should look like this (assuming you have a GRDGame grid added in XAML):
 ```
 matrix = new int[gridSize, gridSize];
 numCellOpen = 0;
@@ -142,11 +142,11 @@ for (int i = 0; i < gridSize; i++)
     GRDGame.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
 }
 ```
-Observe comment la grille est vidée de ses enfants, de ses définitions de lignes et de colonnes et comment nous réinitialisons les définitions de lignes et de colonnes.
+Observe how the grid is emptied of its children, row and column definitions, and how we reset the row and column definitions.
 
-### Remplir la grille
+### Filling in the grid
 
-Ensuite, tu vas avoir besoin de faire une boucle qui, à chaque tour de boucle, va créer le contenu d’une cellule et l’ajouter à la <span style="color:green">grille</span>. Il s’agit en réalité d’une double boucle puisque tu vas devoir boucler sur les colonnes (i) et sur les lignes (j).
+Next, you'll need to code a loop which, at each turn of the loop, will create the contents of a cell and add it to the <span style="color:green">grid</span>. This is actually a double loop, as you'll need to loop on both columns (i) and rows (j).
 
 ```
 Border b = new Border();
