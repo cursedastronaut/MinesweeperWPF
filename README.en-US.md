@@ -156,25 +156,25 @@ b.SetValue(Grid.RowProperty, j);
 b.SetValue(Grid.ColumnProperty, i);
 GRDGame.Children.Add(b);
 ```
-Dans l'image en dessous, je te montre un exemple. La grille GRDGame est en vert et elle fait 2x2. Dans chaque cellule de cette grille, nous metterions un "b", un contrôle de type <span style="color:purple">Border</span> (en violet dans l'image en dessous) mais ça ne suffira pas. Il te faudra également ajouter à chaque "b", une nouvelle <span style="color:green">grille</span> (en vert) contenant un nouveau Label (en blanc, mais caché) et un nouveau <span style="color:blue">Button</span> (en bleu). Au départ, le Label sera invisible et seul le Button sera visible. En cliquant sur le Button, la procédure événementielle qui contrôle la logique du jeu sera déclenchée. Cette procédure devra (entre autres) rendre le Button invisible et de révèler le Label et sa valeur (si la valeur est nulle, elle devra également se déclencher sur ses voisins etc...).
+In the following image I show you an example. The GRDGame grid is green and 2x2. In each cell of this grid, we would put a "b", a control of type <span style="color:purple">Border</span> (in purple in the image below) but that won't be enough. You'll also need to add a new <span style="color:green">grid</span> (in green) containing a new Label (in white, but hidden) and a new <span style="color:blue">Button</span> (in blue). Initially, the Label will be invisible and only the Button will be visible. Clicking on the Button will trigger the event procedure that controls the game logic. This procedure will (among other things) render the Button invisible and reveal the Label and its value (if the value is zero, it will also trigger on its neighbors, etc.)..
 
 <img src="./img/minesweeperTuto.png" width="60%"/>
 
-Pour cela, il faudra bien penser à assigner à ce Button, juste après l'avoir instancié, la procédure événementielle qui réalise cette logique du jeu.
+To do this, you'll need to assign to this Button, just after instantiating it, the event procedure that implements the game logic .
 
-### Position dans la grille
+### Position in the grid
 
-Afin de réaliser l'application, tu auras parfois besoin d'accéder à un contrôle situé précisement à une coordonnée de la grille, ou alors de récupérer les coordonnées d'un contrôle.
+In order to carry out the application, you will sometimes need to access a control located precisely at a grid coordinate, or to retrieve the coordinates of a control.
 
 ```
 Button button = (Button)sender;
-//Ici je pars du principe que dans chaque cellule de la grille, j'ai un Border qui contient une grille qui contient mon bouton. 
+//Here I assume that in each grid cell, I have a Border containing a grid containing my button. 
 Border b = (Border)VisualTreeHelper.GetParent(VisualTreeHelper.GetParent(button));
 int col = Grid.GetColumn(b);
 int row = Grid.GetRow(b);
 ```
 
-En cadeau, une fonction qui retourne le contrôle situé dans une grille à des coordonnées données :
+As a gift, a function that returns the control located in a grid at given coordinates:
 ```
 private UIElement GetUIElementFromPosition(Grid g, int col, int row)
 {
@@ -182,19 +182,19 @@ private UIElement GetUIElementFromPosition(Grid g, int col, int row)
 }
 ```
 
-### Pseudo-code de l'algorithme récursif
+### Pseudo-code of the recursive algorithm 
 
-Le gros morceau du démineur est son algorithme récursif, cela veut dire que nous avons une méthode qui s'appelle elle-même. Nous appelerons cette fonction verifieCellule dans la suite du document.
+The big part of the minesweeper is its recursive algorithm, which means we have a method that calls itself. We'll call this function checkCell in the rest of the document.
 
-Je vais te présenter le principe générale de cette fonction.
+I'm going to introduce you to the general principle of this function.
 
-Ici, on imagine que j’ai cliqué sur le bouton situé aux coordonnées (column, row). Je dois donc appeler cette procédure verifieCellule qui va vérifier s’il y avait une bombe à ces coordonnées. 
-- S’il y a une bombe, alors l’algorithme s’arrête et la partie est perdue. 
-- S’il n’y en a pas, je dois enlever le bouton (le rendre invisible) afin d’afficher le nombre de bombes voisines (en rendant visible le Label et en mettant le nombre correspondant depuis la matrice).
-    - Si ce nombre est supérieur à zéro, alors on s'arrête là.
-    - Si ce nombre est égale à zéro, je dois alors rappeler verifieCellule sur toutes les cases voisines ! C’est ici que se trouve l’aspect récursif de cette fonction !
+Here, we imagine that I've clicked on the button located at coordinates (column, row). So I need to call this procedure verifieCellule, which will check if there was a bomb at these coordinates. 
+- If there is, the algorithm stops and the game is lost. 
+- If there isn't, I have to remove the button (make it invisible) in order to display the number of neighboring bombs (by making the Label visible and putting the corresponding number from the matrix).
+    - If this number is greater than zero, we stop here.
+    - If the number is equal to zero, then I have to call back verifieCellule on all neighboring cells! This is where the recursive aspect of this function comes in!
 
-Tu feras attention au moment de vérifier une cellule voisine que ses coordonnées ne soient pas en dehors de la grille (le pseudo-code te montre comment faire, la fonction Max renvoie la plus grande valeur entre 2 valeurs et la fonction Min renvoie la plus petite valeur entre 2 valeurs, ces deux fonctions existent en C# dans la bibliothèque Math).
+You'll need to be careful when checking a neighboring cell that its coordinates aren't outside the grid (the pseudo-code shows you how to do this, the Max function returns the largest value between 2 values and the Min function returns the smallest value between 2 values, both of which exist in C# in the Math library).
 
 #### Pseudo-Code 
 ```
