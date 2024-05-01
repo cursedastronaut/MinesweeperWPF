@@ -57,49 +57,49 @@ As you can see, there are 3 sessions for this Lab, as there are several difficul
 <details>
     <summary>See instructions here to retrieve and submit the project (important).</summary> 
 
-> Pour récupérer le projet et le soumettre à la fin des deux séances, vous allez devoir utiliser le script **travo** fourni par le responsable du module. Télécharger ce script [**travoIHM.py**](https://ihm.gitpages.iut-orsay.fr/cours/travoIHM.py) dans votre espace personnel (quelque part dans le lecteur Z:).
+> > To retrieve the project and submit it at the end of the two sessions, you'll need to use the **travo** script provided by the teacher responsable for this course. Download this script [**travoIHM.py**](https://ihm.gitpages.iut-orsay.fr/cours/travoIHM.py) to your personal space (somewhere in drive Z:).
 > 
-> > **travo** est un ensemble de scripts Python maintenu par des enseignants chercheurs de Paris-Saclay et du Québec facilitant l'utilisation de GIT pour les enseignants. En fait les commandes **travo** effectuent un ensemble de commande GIT pour vous. **travo** ainsi que Python sont déjà installés sur les ordinateurs de l'IUT.
+> **travo** is a set of Python scripts maintained by teachers & researchers from Paris-Saclay and Quebec, making it easier for teachers to use GIT. In fact, **travo** commands perform a set of GIT commands for you. Both **travo** and Python are already installed on IUT computers.
 > > 
-> > Vous pouvez utiliser votre propre ordinateur et installer **travo** dessus (à condition d'avoir installé Python au préalable bien sûr) à l'aide de la commande: 
+> > You can use your own computer and install **travo** on it (provided you've installed Python beforehand, of course) using the command
 > > ```
 > > pip install travo
 > > ```
 > 
-> Sur l'ordinateur de l'IUT, rendez-vous dans le répertoire C:\WinPython et lancer le programme "WinPython Powershell Prompt.exe", un terminal Powershell va s'ouvrir, prêt à recevoir des commandes Python.
-> A l'intérieur de ce terminal PowerShell, tapez d'abord la commande suivante, vous permettant de vous déplacer dans > votre espace personnel :
+> On the IUT computer, go to the C:WinPython directory and run the "WinPython Powershell Prompt.exe" program. A Powershell terminal will open, ready to receive Python commands.
+> Inside this PowerShell terminal, first type the following command, enabling you to move to > your personal space:
 > 
 > ```
 > cd Z:\
 > ```
 > 
-> Si vous tapez la commande **ls**, vous devriez voir dans la liste des fichiers de ce répertoire, le script **travoIHM.py** que vous avez téléchargé précédemment (bien sûr, vous pouvez travailler dans un autre répertoire que la racine du répertoire Z:).
+> If you type the **ls** command, you should see the **travoIHM.py** script you downloaded earlier in the list of files in this directory (of course, you can work in a directory other than the root of the Z: directory).
 > 
-> Enfin, pour récupérer le projet, il vous suffit de taper la commande :
+> To retrieve the project, simply type the command :
 > 
 > ```
 > python travoIHM.py fetch tpihm6
 > ```
 > 
-> Il vous sera demandé vos identifiants ADONIS (de l'IUT) puis le projet sera téléchargé sur votre ordinateur (dans le répertoire "tpihm6"). 
+> You will be asked for your ADONIS (IUT) login information, and the project will be downloaded to your computer (in the "tpihm6" directory). 
 > 
-> Sauvegarder ou soumettre votre travail à l'enseignant se fera à l'aide de la commande : 
+> Saving or submitting your work to your teacher will be done with the command : 
 > ```
 > python travoIHM.py submit tpihm6 ####
 > ```
-> Il vous faut remplacer #### par votre identifiant de groupe **tp2a** ou **tp2b** etc... Ne vous trompez pas de groupe, ce sera des points en moins
+> You need to replace #### with your group ID **tp2a** or **tp2b** etc... Don't enter the wrong group, you'll lose points (if you've made a mistake, you can resubmit with the correct group and travo will correct the error, so don't panic).
 > 
-> Vous pouvez faire autant de "submit" que vous voulez. C'est une bonne pratique pour ne pas perdre votre travail.
+> You can submit as many times as you like. It's good practice not to lose your work.
 >
-> > ### Ajouter un fichier à un projet récupéré
+> > ### Add a file to a project that has been retrieved
 > > 
-> > La plupart des projets que vous allez récupérer avec travo contient a priori tous les fichiers dont vous avez besoin. Cependant il est possible que vous ayez besoin d'ajouter des fichiers (des images, des sons, des classes, que sais-je...) à vos projets, afin qu'ils se retrouvent sur le Git.
+> > Most of the projects you'll retrieve with travo will contain all the files you need. However, you may need to add files (images, sounds, classes, etc.) to your projects, so that they can be found on the Git.
 > > 
-> > **travo** ne regarde pas s'il y a de nouveaux fichiers dans vos projets.
+> > **travo** doesn't check for new files in your projects.
 > > 
-> > Cependant, vous pouvez tout à fait utiliser les commandes **git add** que vous avez dû voir en cours de [Qualité de développement](https://hoangla95.github.io/qualitedevs2/tp1) en vous plaçant dans le répertoire du projet.
+> > However, you can use the **git add** commands that you should have seen in [Qualité de développement](https://hoangla95.github.io/qualitedevs2/tp1) class by placing yourself in the project directory.
 > >
-> > Une fois les fichiers ajoutés avec la commande **git add**, travo les prendra en compte lors du **submit**.
+> > Once the files have been added with the **git add** command, travo will take them into account during **submit**.
 
 </details>
 
