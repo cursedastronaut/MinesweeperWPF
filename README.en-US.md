@@ -46,7 +46,7 @@ Your application must allow you to manipulate certain parameters before starting
 There are two major challenges in this lab and you'll need to find information in the documentation / on the Internet to handle them : 
 
 - The first is to correctly implement the dynamic creation of controls. The idea is that, at the start of each game, you create a new grid of controls. You'll need to do this from the code and you'll have to assign to these dynamically created controls the event-driven procedure you'll write, which will call the game's algorithms.
-- The second challenge involves the algorithms that allow the game to function correctly. In particular, the algorithm that traverses the neighbors of a clicked cell is not trivial. This is a recursive algorithm, i.e. one that calls itself. You haven't yet seen this type of algorithm, but we'll give you a few hints later in this document.
+- The second challenge involves the algorithms that allow the game to function correctly. In particular, the algorithm that loops across the neighbors of a clicked cell is not trivial. This is a recursive algorithm, i.e. one that calls itself. You haven't yet seen this type of algorithm, but we'll give you a few hints later in this document.
 
 As you can see, there are 3 sessions for this Lab, as there are several difficulties. Try to set objectives for each session. For example:
 - 1st session: have a dynamic grid of controls when the application starts up, as well as the random placement of bombs in the game (without the game logic yet).
