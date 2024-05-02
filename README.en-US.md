@@ -186,50 +186,51 @@ private UIElement GetUIElementFromPosition(Grid g, int col, int row)
 
 The big part of the minesweeper is its recursive algorithm, which means we have a method that calls itself. We'll call this function checkCell in the rest of the document.
 
-I'm going to introduce you to the general principle of this function.
+I'm going to explain to you the general principle of this function.
 
-Here, we imagine that I've clicked on the button located at coordinates (column, row). So I need to call this procedure verifieCellule, which will check if there was a bomb at these coordinates. 
+We suppose that I've clicked on the button located at coordinates (column, row). So I need to call the checkCell procedure, which will check if there is a bomb at these coordinates. 
 - If there is, the algorithm stops and the game is lost. 
 - If there isn't, I have to remove the button (make it invisible) in order to display the number of neighboring bombs (by making the Label visible and putting the corresponding number from the matrix).
     - If this number is greater than zero, we stop here.
-    - If the number is equal to zero, then I have to call back verifieCellule on all neighboring cells! This is where the recursive aspect of this function comes in!
+    - If the number is equal to zero, then I have to call again checkCell on all neighboring cells! This is where the recursive aspect of this function comes in!
 
 You'll need to be careful when checking a neighboring cell that its coordinates aren't outside the grid (the pseudo-code shows you how to do this, the Max function returns the largest value between 2 values and the Min function returns the smallest value between 2 values, both of which exist in C# in the Math library).
 
 #### Pseudo-Code 
 ```
-fonction Booleen verifieCellule(entier column, entier row)
+Boolean function checkCell(integer column, integer row)
 {
-    SI la case n’a pas déjà été vérifiée (le bouton est toujours visible/actif)
-    ALORS {
-        On cache/désactive le bouton et on affiche la valeur de cette cellule
-        SI la case est une bombe 
-        ALORS{ partie perdue et on réinitialise le jeu; retourne VRAI }
-        SINON{ 
-            SI c’était la dernière case à ouvrir 
-            ALORS{ partie gagnée et on réinitialise le jeu ; retourne VRAI}
-            SINON{
-                //On vérifie la valeur de cette cellule
-                SI matrice[column,row] est égale à 0 (pas de bombes autour) 
-                ALORS{	
-                    // la procédure s’appelle ensuite elle-même sur les cellules voisines
-                    POUR i de Max(0, column-1) à Min(tailleGrille -1, column+1) {
-                        POUR j de Max(0, row-1) à Min(tailleGrille -1, row+1){
-                            Booleen resultat = verifieCellule(i,j)
-                            SI resultat est égal à VRAI
-                            ALORS{ retourne VRAI }
+    IF the cell has not already been checked (the button is still visible/active)
+    THEN {
+        Hide/deactivate the button and display the value of this cell
+        IF the cell is a bomb 
+        THEN{ game lost, reset the game; return TRUE }
+        ELSE{ 
+            IF it was the cell to be checked 
+            THEN{ game won, reset the game; return TRUE}
+            ELSE{
+                //Check the value of this cell
+                IF matrix[column,row] is 0 (no bombs around) 
+                THEN{	
+                    // the procedure calls itself on neighboring cells
+                    FOR i from Max(0, column-1) to Min(gridsize -1, column+1) {
+                        FOR j from Max(0, row-1) to Min(gridsize -1, row+1){
+                            Boolean resultat = checkCell(i,j)
+                            IF resultat equals TRUE
+                            THEN{ return TRUE }
                         }
                     }
                 }
             }
         }
     }
-    retourne FAUX
+    return FALSE
 }
+
 ```
-### Remettre ton travail
-N'oublie pas de soumettre ton travail à l'enseignant avec la commande **travo** 
+### Submit your work
+Don't forget to submit your work to your teacher with the **travo** command. 
 ```
 python travoIHM.py submit tpihm6 ####
 ```
-> en remplaçant #### par ton identifiant de groupe **tp2a** ou **tp2b** etc... Encore une fois, ne te trompe pas de groupe...
+> replacing #### with your group ID **tp2a** or **tp2b** etc... Once again, don't get the wrong group...
