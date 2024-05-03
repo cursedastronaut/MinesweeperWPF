@@ -112,8 +112,8 @@ My first piece of advice is to set aside the game's algorithms to get started. C
 Here are a few things that can help you with your application. First of all, you'll probably need to add some attributes to your class that will allow you to track the state of the game:
 ```
 private int gridSize = 10;
-private int numMine = 10;
-private int numCellOpen = 0;
+private int nbMines = 10;
+private int nbCellsVisited = 0;
 private int[,] matrix;
 ```
 The two-dimensional matrix is used to store the values of each cell:
@@ -132,7 +132,7 @@ You'll need to write a procedure that resets the game. Among other things, this 
 The begining of this initialization procedure should look like this (assuming you have a GRDGame grid added in XAML):
 ```
 matrix = new int[gridSize, gridSize];
-numCellOpen = 0;
+nbCellsVisited = 0;
 GRDGame.Children.Clear();
 GRDGame.ColumnDefinitions.Clear();
 GRDGame.RowDefinitions.Clear();
