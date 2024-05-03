@@ -206,7 +206,7 @@ Boolean function checkCell(integer column, integer row)
         IF the cell is a bomb 
         THEN{ game lost, reset the game; return TRUE }
         ELSE{ 
-            IF it was the cell to be checked 
+            IF it was the last cell to be checked 
             THEN{ game won, reset the game; return TRUE}
             ELSE{
                 //Check the value of this cell
