@@ -51,7 +51,7 @@ There are two major challenges in this lab and you'll need to find information i
 As you can see, there are 3 sessions for this Lab, as there are several difficulties. Try to set objectives for each session. For example:
 - 1st session: have a dynamic grid of controls when the application starts up, as well as the random placement of bombs in the game (without the game logic yet).
 - 2nd session: have the main game algorithms implemented.
-- 3rd session: get the menu for configuring the grid size, the number of bombs and restarting a new game. You can also customize your game with your own colors and animations!
+- 3rd session: have the menu for configuring the grid size, the number of bombs and restarting a new game. You can also customize your game with your own colors and animations!
 
 ## (1) Retrieve the project using **travo**
 <details>
@@ -159,9 +159,9 @@ GRDGame.Children.Add(b);
 In the following image I show you an example. The GRDGame grid is green and 2x2. In each cell of this grid, we would put a "b", a control of type <span style="color:purple">Border</span> (in purple in the image below) but that won't be enough. You'll also need to add a new <span style="color:green">grid</span> (in green) containing a new Label (in white, but hidden) and a new <span style="color:blue">Button</span> (in blue). Initially, the Label will be invisible and only the Button will be visible. Clicking on the Button will trigger the event procedure that controls the game logic. This procedure will (among other things) render the Button invisible and reveal the Label and its value (if the value is zero, it will also trigger on its neighbors, etc.).
 
 <details>
-    <summary>Why using a Grid in each Border?</summary>
+    <summary>Why use a Grid in each Border?</summary>
 
-> In order to easily manipulate the buttons and their respectives hidden labels, it is better to regroup them in the application tree as well, by assigning them as childs of the same control. Border only accepts one child, therefore, I need a Layout control in the Border control to achieve this. I chose the Grid because the Grid will ensure its child controls take as much space as they can (basically, they will fill their cell). You could have used a DockPanel or even a StackPanel...
+> In order to easily manipulate the buttons and their respective hidden labels, it is best to group them in the application tree as well, by assigning them as children of one same control. Border controls only accepts one child, therefore, I need a Layout control in the Border control to achieve this. I chose the Grid because the Grid will ensure that its children controls take as much space as they can (basically, they will fill their cell). You could have used a DockPanel or even a StackPanel...
 
 </details>
 
