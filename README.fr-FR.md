@@ -113,10 +113,10 @@ Mon premier conseil est de mettre de côté les algorithmes du jeu pour commence
 
 Voici quelques éléments qui peuvent t'aider pour ton application. Tout d'abord, tu auras surement besoin d'ajouter quelques attributs à ta classe qui te permettront de suivre l'état de la partie :
 ```
-private int gridSize = 10;
-private int numMine = 10;
-private int numCellOpen = 0;
-private int[,] matrix;
+private int gridSize = 10; // taille de la grille
+private int nbMine = 10; // nombre de bombes
+private int nbCellOpen = 0; // nombre de cellules qui ont été vérifiées, ouvertes
+private int[,] matrix; // matrice conservant les valeurs de la grille (voir ci-dessous)
 ```
 La matrice à deux dimensions sert à conserver les valeurs de chaque case:
 - -1, cette case contient une bombe
@@ -134,7 +134,7 @@ Tu vas avoir besoin d'écrire une procédure qui réinitialise le jeu. Cette pro
 Le début de cette procédure de réinitialisation devrait ressembler à ça (on considère que l'on a la grille GRDGame qui a été ajoutée dans le XAML) :
 ```
 matrix = new int[gridSize, gridSize];
-numCellOpen = 0;
+nbCellOpen = 0;
 GRDGame.Children.Clear();
 GRDGame.ColumnDefinitions.Clear();
 GRDGame.RowDefinitions.Clear();
@@ -208,7 +208,7 @@ fonction Booleen verifieCellule(entier column, entier row)
         SI la case est une bombe 
         ALORS{ partie perdue et on réinitialise le jeu; retourne VRAI }
         SINON{ 
-            SI c’était la dernière case à ouvrir 
+            SI c’était la dernière cellule à vérifier 
             ALORS{ partie gagnée et on réinitialise le jeu ; retourne VRAI}
             SINON{
                 //On vérifie la valeur de cette cellule
