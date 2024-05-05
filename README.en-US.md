@@ -113,7 +113,7 @@ Here are a few things that can help you with your application. First of all, you
 ```
 private int gridSize = 10;      // grid size
 private int nbMines = 10;       // number of mines
-private int nbCellsVisited = 0; // number of celles that have been visited (opened)
+private int nbCellsVisited = 0; // number of cells that have been visited (opened)
 private int[,] matrix;          // matrix preserving grid values (see below)
 ```
 The two-dimensional matrix is used to store the values of each cell:
