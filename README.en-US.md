@@ -111,10 +111,10 @@ My first piece of advice is to set aside the game's algorithms to get started. C
 
 Here are a few things that can help you with your application. First of all, you'll probably need to add some attributes to your class that will allow you to track the state of the game:
 ```
-private int gridSize = 10;
-private int nbMines = 10;
-private int nbCellsVisited = 0;
-private int[,] matrix;
+private int gridSize = 10;      // grid size
+private int nbMines = 10;       // number of mines
+private int nbCellsVisited = 0; // number of celles that have been visited (opened)
+private int[,] matrix;          // matrix preserving grid values (see below)
 ```
 The two-dimensional matrix is used to store the values of each cell:
 - -1, this cell contains a bomb
