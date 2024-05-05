@@ -160,9 +160,10 @@ GRDGame.Children.Add(b);
 ```
 Dans l'image en dessous, je te montre un exemple. La grille GRDGame est en vert et elle fait 2x2. Dans chaque cellule de cette grille, nous metterions un "b", un contrôle de type <span style="color:purple">Border</span> (en violet dans l'image en dessous) mais ça ne suffira pas. Il te faudra également ajouter à chaque "b", une nouvelle <span style="color:green">grille</span> (en vert) contenant un nouveau Label (en blanc, mais caché) et un nouveau <span style="color:blue">Button</span> (en bleu). Au départ, le Label sera invisible et seul le Button sera visible. En cliquant sur le Button, la procédure événementielle qui contrôle la logique du jeu sera déclenchée. Cette procédure devra (entre autres) rendre le Button invisible et révèler le Label et sa valeur (si la valeur est nulle, elle devra également se déclencher sur ses voisins etc...).
 
-??? note Pourquoi mettre une grille dans chaque Border?
-    Afin de manipuler facilement les boutons et leurs labels cachés respectifs, il est préférable de les regrouper également dans l'arborescence de l'application, en les affectant comme enfants d'un même contrôle. Border n'accepte qu'un seul enfant, par conséquent, j’ai besoin d’un contrôle de Layout à mettre dans le Border pour y parvenir. J'ai choisi la grille car elle garantira que ses contrôles enfants occupent autant d'espace que possible (en gros, ils rempliront leur cellule). Tu pourrais utiliser un DockPanel voire même un StackPanel...
- 
+<details>
+    <summary>Pourquoi mettre une grille dans chaque Border?</summary>
+> Afin de manipuler facilement les boutons et leurs labels cachés respectifs, il est préférable de les regrouper également dans l'arborescence de l'application, en les affectant comme enfants d'un même contrôle. Border n'accepte qu'un seul enfant, par conséquent, j’ai besoin d’un contrôle de Layout à mettre dans le Border pour y parvenir. J'ai choisi la grille car elle garantira que ses contrôles enfants occupent autant d'espace que possible (en gros, ils rempliront leur cellule). Tu pourrais utiliser un DockPanel voire même un StackPanel...
+</details> 
 
 <img src="./img/minesweeperTuto.png" width="60%"/>
 
