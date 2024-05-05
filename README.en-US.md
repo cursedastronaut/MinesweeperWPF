@@ -160,7 +160,9 @@ In the following image I show you an example. The GRDGame grid is green and 2x2.
 
 <details>
     <summary>Why using a Grid in each Border?</summary>
+
 > In order to easily manipulate the buttons and their respectives hidden labels, it is better to regroup them in the application tree as well, by assigning them as childs of the same control. Border only accepts one child, therefore, I need a Layout control in the Border control to achieve this. I chose the Grid because the Grid will ensure its child controls take as much space as they can (basically, they will fill their cell). You could have used a DockPanel or even a StackPanel...
+
 </details>
 
 

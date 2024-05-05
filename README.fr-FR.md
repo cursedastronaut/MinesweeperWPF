@@ -162,7 +162,9 @@ Dans l'image en dessous, je te montre un exemple. La grille GRDGame est en vert 
 
 <details>
     <summary>Pourquoi mettre une grille dans chaque Border?</summary>
+
 > Afin de manipuler facilement les boutons et leurs labels cachés respectifs, il est préférable de les regrouper également dans l'arborescence de l'application, en les affectant comme enfants d'un même contrôle. Border n'accepte qu'un seul enfant, par conséquent, j’ai besoin d’un contrôle de Layout à mettre dans le Border pour y parvenir. J'ai choisi la grille car elle garantira que ses contrôles enfants occupent autant d'espace que possible (en gros, ils rempliront leur cellule). Tu pourrais utiliser un DockPanel voire même un StackPanel...
+
 </details> 
 
 <img src="./img/minesweeperTuto.png" width="60%"/>
