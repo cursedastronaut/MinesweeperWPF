@@ -113,7 +113,7 @@ Here are a few things that can help you with your application. First of all, you
 ```
 private int gridSize = 10;      // grid size
 private int nbMines = 10;       // number of mines
-private int nbCellsVisited = 0; // number of cells that have been visited (opened)
+private int nbCellsChecked = 0; // number of cells that have been checked (opened)
 private int[,] matrix;          // matrix preserving grid values (see below)
 ```
 The two-dimensional matrix is used to store the values of each cell:
@@ -132,7 +132,7 @@ You'll need to write a procedure that resets the game. Among other things, this 
 The begining of this initialization procedure should look like this (assuming you have a GRDGame grid added in XAML):
 ```
 matrix = new int[gridSize, gridSize];
-nbCellsVisited = 0;
+nbCellsChecked = 0;
 GRDGame.Children.Clear();
 GRDGame.ColumnDefinitions.Clear();
 GRDGame.RowDefinitions.Clear();
