@@ -156,7 +156,11 @@ b.SetValue(Grid.RowProperty, j);
 b.SetValue(Grid.ColumnProperty, i);
 GRDGame.Children.Add(b);
 ```
-In the following image I show you an example. The GRDGame grid is green and 2x2. In each cell of this grid, we would put a "b", a control of type <span style="color:purple">Border</span> (in purple in the image below) but that won't be enough. You'll also need to add a new <span style="color:green">grid</span> (in green) containing a new Label (in white, but hidden) and a new <span style="color:blue">Button</span> (in blue). Initially, the Label will be invisible and only the Button will be visible. Clicking on the Button will trigger the event procedure that controls the game logic. This procedure will (among other things) render the Button invisible and reveal the Label and its value (if the value is zero, it will also trigger on its neighbors, etc.)..
+In the following image I show you an example. The GRDGame grid is green and 2x2. In each cell of this grid, we would put a "b", a control of type <span style="color:purple">Border</span> (in purple in the image below) but that won't be enough. You'll also need to add a new <span style="color:green">grid</span> (in green) containing a new Label (in white, but hidden) and a new <span style="color:blue">Button</span> (in blue). Initially, the Label will be invisible and only the Button will be visible. Clicking on the Button will trigger the event procedure that controls the game logic. This procedure will (among other things) render the Button invisible and reveal the Label and its value (if the value is zero, it will also trigger on its neighbors, etc.).
+
+??? note Why using a Grid in each Border?
+    In order to easily manipulate the buttons and their respectives hidden labels, it is better to regroup them in the application tree as well, by assigning them as childs of the same control. Border only accepts one child, therefore, I need a Layout control in the Border control to achieve this. I chose the Grid because the Grid will ensure its child controls take as much space as they can (basically, they will fill their cell). You could have used a DockPanel or even a StackPanel...
+
 
 <img src="./img/minesweeperTuto.png" width="60%"/>
 
