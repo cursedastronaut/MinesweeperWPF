@@ -70,8 +70,10 @@ namespace MinesweeperWPF
 			initGrid();
 			generateMine();
 			updateUI();
+#if DEBUG
 			if (debugMode.IsChecked == true)
 				turnMinesRed();
+#endif
 		}
 
 		private void initGrid()
@@ -268,6 +270,7 @@ namespace MinesweeperWPF
 			}
 		}
 
+#if DEBUG
 		private void turnMinesRed()
 		{
 			for (int i = 0; i < gridSize.x; i++)
@@ -282,9 +285,9 @@ namespace MinesweeperWPF
 					button.Background = (Brush)bc.ConvertFrom("#FF0000");
 				}
 			}
-
 			LBL_UI.Content = numberOfCellsLeft;
 		}
+#endif
 
 		private void updateUI()
 		{
@@ -294,24 +297,26 @@ namespace MinesweeperWPF
 
 		private void reset()
 		{
-			gridSize.x = 0;
-			gridSize.y = 0;
-			numberOfBomb = 0;
-			flagLeft = 0;
-			flagTotal = 0;
-			numberOfCellsLeft = 0;
-
+			//Reset game variables
+			gridSize.x			= 0;
+			gridSize.y			= 0;
+			numberOfBomb		= 0;
+			flagLeft			= 0;
+			flagTotal			= 0;
+			numberOfCellsLeft	= 0;
 			gridValues = new List<List<int>>(); //0: no bomb, 9 = bomb here
-			firstClick = false;
+			firstClick = false; //Shouldn't be an issue since it would be false after first click, just in case I resetted it.
 
+			//Hiding the game, and showing Menu
 			GRDGame.Visibility = Visibility.Hidden;
 			GRD_Menu.Visibility = Visibility.Visible;
 
 			BrushConverter bc = new BrushConverter();
 
+			//Listbox for game difficulty
 			ListBox list = new ListBox();
-			list.Height = 128;
-			list.Width = 128;
+			list.Height		= 128;
+			list.Width		= 128;
 			list.Margin = new Thickness(0, 128, 0, 0);
 			list.Background = (Brush)bc.ConvertFrom("#77C9E5FF");
 			list.Foreground = (Brush)bc.ConvertFrom("#FFFFFF");
@@ -321,6 +326,7 @@ namespace MinesweeperWPF
 				list.Items.Add(difficulty.Item1);
 			}
 
+			//Button to play
 			Button play = new Button();
 			play.Margin = new Thickness(128, 256+64, 128, 0);
 			play.Content = "Jouer";
@@ -328,6 +334,7 @@ namespace MinesweeperWPF
 			play.Background = (Brush)bc.ConvertFrom("#77C9E5FF");
 			play.Foreground = (Brush)bc.ConvertFrom("#FFFFFF");
 
+			//Title of the game
 			Label title = new Label();
 			title.Content = "Minesweeper";
 			title.FontSize = 48;
@@ -336,16 +343,21 @@ namespace MinesweeperWPF
 			title.Height = 64;
 			title.Margin = new Thickness(0, -128, 0, 0);
 
+#if DEBUG
+			//Checkbox to enable DebugMode
 			CheckBox checkBox = new CheckBox();
 			checkBox.Content = "Debug Mode";
 			checkBox.Width = 128;
 			checkBox.Height = 16;
 			checkBox.Margin = new Thickness(0, -16, 0, 0);
+#endif
 
 			GRD_Menu.Children.Add(list);
 			GRD_Menu.Children.Add(play);
 			GRD_Menu.Children.Add(title);
+#if DEBUG
 			GRD_Menu.Children.Add(checkBox);
+#endif
 
 		}
 
