@@ -11,11 +11,17 @@
             <RowDefinition Height="30"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Label Content="Mon Super Démineur" Grid.Row="0"/>
+        <Label x:Name="LBL_UI" Content="Mon Super Démineur" Grid.Row="0"/>
         <Grid x:Name="GRDGame" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="AliceBlue" Grid.Row="1">
-            
-            
-        </Grid>
 
+        </Grid>
+        <Grid x:Name="GRD_Menu" HorizontalAlignment="Center" Height="389" Margin="0,23,0,0" VerticalAlignment="Top" Width="780" Grid.RowSpan="2">
+            <Grid.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF31495F"/>
+                    <GradientStop Color="#FFC9E5FF" Offset="1"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+        </Grid>
     </Grid>
 </Window>
