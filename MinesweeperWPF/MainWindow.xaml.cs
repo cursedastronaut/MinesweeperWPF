@@ -167,8 +167,7 @@ namespace MinesweeperWPF
 			if (gridValues[col][row] == IS_A_MINE)
 			{
 				MessageBox.Show("You lost!");
-				gridValues = new List<List<int>>();
-				GRDGame.Children.Clear();
+				reset();
 			} else {
 				numberOfCellsLeft--;
 				tempGrid.Children.Add(label);
@@ -301,10 +300,12 @@ namespace MinesweeperWPF
 			flagLeft = 0;
 			flagTotal = 0;
 			numberOfCellsLeft = 0;
+
 			gridValues = new List<List<int>>(); //0: no bomb, 9 = bomb here
 			firstClick = false;
 
 			GRDGame.Visibility = Visibility.Hidden;
+			GRD_Menu.Visibility = Visibility.Visible;
 
 			BrushConverter bc = new BrushConverter();
 
