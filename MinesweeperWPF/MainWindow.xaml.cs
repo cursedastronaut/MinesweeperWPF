@@ -208,7 +208,7 @@ namespace MinesweeperWPF
 				gameDone = true;
 				tempGrid.Children.Add(getMineImage());
 				LBL_UI.Content = "Vous avez perdu! Appuyez sur ENTRÉE pour revenir au menu principal.";
-				MessageBox.Show("You lost!");
+				MessageBox.Show("Dommage, vous avez perdu...", "Démineur");
 				discoverAllTiles();
 			}
 			else {
@@ -227,7 +227,9 @@ namespace MinesweeperWPF
 				}
 				if (numberOfCellsLeft <= 0)
 				{
-					MessageBox.Show("You won!");
+					LBL_UI.Content = "Vous avez gagné! Appuyez sur ENTRÉE pour revenir au menu principal.";
+					MessageBox.Show("Félicitations, vous avez gagné!", "Démineur");
+					discoverAllTiles();
 					gameDone = true;
 				}
 			}
@@ -402,6 +404,7 @@ namespace MinesweeperWPF
 			return image;
 		}
 
+		//Discovers all tiles upon death or win.
 		private void discoverAllTiles()
 		{
 			for (int col = 0; col < gridSize.x; col++)
