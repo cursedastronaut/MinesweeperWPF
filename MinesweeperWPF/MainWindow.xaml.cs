@@ -30,23 +30,24 @@ namespace MinesweeperWPF
 #else
 		private const bool DEBUG_MODE = false;
 #endif
+		//CONSTANTS
+		private const double	PERCENTAGE_OF_BOMBS_ALLOWED = 40 / 100;
+		private const int		PERCENTAGE_OF_BOMB = 10;
+		private const int		IS_A_MINE = 9;
+		private const int		MAX_CELLS_FACTOR = 50;
 
-		private const int PERCENTAGE_OF_BOMB = 10;
-		private const double PERCENTAGE_OF_BOMBS_ALLOWED = 40 / 100;
-		private const int IS_A_MINE = 9;
-		private const int MAX_CELLS_FACTOR = 50;
-
+		//Difficulty list
 		private List<Tuple<string, int, int>> difficulties = new List<Tuple<string, int, int>>();
 
-		private int2 gridSize = new int2();
-		private int numberOfBomb = 0;
-		private int flagLeft = 0;
-		private int flagTotal = 0;
-		private int numberOfCellsLeft = 0;
-		private List<List<int>> gridValues = new List<List<int>>(); //0: no bomb, 9 = bomb here
-		private Boolean firstClick = false;
-		private bool gameDone = false;
-		private bool customBombNumber = false;
+		private int2			gridSize = new int2();
+		private int				numberOfBomb = 0;
+		private int				flagLeft = 0;
+		private int				flagTotal = 0;
+		private int				numberOfCellsLeft = 0;
+		private List<List<int>>	gridValues = new List<List<int>>(); //0: no bomb, 9 = bomb here
+		private bool			firstClick = false;
+		private bool			gameDone = false;
+		private bool			customBombNumber = false;
 
 		public MainWindow()
 		{
