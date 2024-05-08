@@ -374,6 +374,12 @@ namespace MinesweeperWPF
 			}
 		}
 
-
+		//Hides the debug mode checkbox if it's not debug mode. Even if someone were to hack the binaries
+		//or the RAM to make it reappear, the functions are not compiled into Release mode, so the game
+		//would continue without caring.
+		private void hidingDebugCheckbox(object sender, RoutedEventArgs e)
+		{
+			if (!DEBUG_MODE) CHK_DebugMode.Visibility = Visibility.Hidden;
+		}
 	}
 }
