@@ -31,7 +31,7 @@ namespace MinesweeperWPF
 		private const bool DEBUG_MODE = false;
 #endif
 		//CONSTANTS
-		private const double	PERCENTAGE_OF_BOMBS_ALLOWED = 40 / 100;
+		private const double	PERCENTAGE_OF_BOMBS_ALLOWED = 0.4;
 		private const int		PERCENTAGE_OF_BOMB = 10;
 		private const int		IS_A_MINE = 9;
 		private const int		MAX_CELLS_FACTOR = 50;
@@ -48,6 +48,7 @@ namespace MinesweeperWPF
 		private bool			firstClick = false;
 		private bool			gameDone = false;
 		private bool			customBombNumber = false;
+		private bool			menuLoadingDone = false;
 
 		public MainWindow()
 		{
@@ -395,6 +396,7 @@ namespace MinesweeperWPF
 			{
 				LST_Difficulties.Items.Add(difficulty.Item1);
 			}
+			menuLoadingDone = true;
 		}
 
 		private void LST_Difficulties_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -409,6 +411,7 @@ namespace MinesweeperWPF
 				LBL_Columns				.Visibility = Visibility.Visible;
 				LBL_Rows				.Visibility = Visibility.Visible;
 				LBL_Bombs				.Visibility = Visibility.Visible;
+				
 			} else {
 				CHK_CustomBombNumber	.Visibility = Visibility.Hidden;
 				TXT_Columns				.Visibility = Visibility.Hidden;
@@ -418,6 +421,7 @@ namespace MinesweeperWPF
 				LBL_Rows				.Visibility = Visibility.Hidden;
 				LBL_Bombs				.Visibility = Visibility.Hidden;
 			}
+			checkCustomValues(null, null);
 		}
 
 		//Hides the debug mode checkbox if it's not debug mode. Even if someone were to hack the binaries
@@ -463,6 +467,37 @@ namespace MinesweeperWPF
 
 			}
 		}
+
+		private void checkCustomValues(object sender, RoutedEventArgs e)
+		{
+			if (!menuLoadingDone) return;
+			if (LST_Difficulties.SelectedIndex != (difficulties.Count - 1))
+			{
+				BTN_Play.IsEnabled = true;
+				return;
+			}
+			/*
+			I forbid bomb counts over 40% of the total cells number, just like in the Windows XP and Vista version
+			as pseudo-random mine generation may create a seemingly infinite (too long for user) loop, making it
+			looked like the program has crashed.
+			*/
+			try
+			{
+				BTN_Play.IsEnabled = !(
+						Int32.Parse(TXT_Columns.Text) <= 0 || Int32.Parse(TXT_Columns.Text) > MAX_CELLS_FACTOR || Int32.Parse(TXT_Rows.Text) <= 0 || Int32.Parse(TXT_Rows.Text) > MAX_CELLS_FACTOR
+						|| ((bool)CHK_CustomBombNumber.IsChecked && Int32.Parse(TXT_Bombs.Text) <= 0)
+						|| ((bool)CHK_CustomBombNumber.IsChecked && ((double)Int32.Parse(TXT_Bombs.Text) > ((Int32.Parse(TXT_Columns.Text) * Int32.Parse(TXT_Rows.Text)) * PERCENTAGE_OF_BOMBS_ALLOWED))) //see comment above
+				);
+			} catch (NullReferenceException ex)
+			{
+				BTN_Play.IsEnabled = false;
+			} catch (Exception ex) {
+				BTN_Play.IsEnabled = false;
+			} 
+			LBL_UI.Content = "Nombre incorrect! Taille: " + (MAX_CELLS_FACTOR) + ". Bombes: Entre 0 et " + (PERCENTAGE_OF_BOMBS_ALLOWED * 100) + "% de colonnes x lignes.";
+
+		}
+
 
 	}
 }
