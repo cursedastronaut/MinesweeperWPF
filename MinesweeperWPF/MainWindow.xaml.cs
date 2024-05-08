@@ -35,6 +35,7 @@ namespace MinesweeperWPF
 		private const int		PERCENTAGE_OF_BOMB = 10;
 		private const int		IS_A_MINE = 9;
 		private const int		MAX_CELLS_FACTOR = 50;
+		private const string	LBL_UI_DEFAULT_CONTENT = "Mon Super Démineur";
 
 		//Difficulty list
 		private List<Tuple<string, int, int>> difficulties = new List<Tuple<string, int, int>>();
@@ -358,7 +359,7 @@ namespace MinesweeperWPF
 
 		private void reset()
 		{
-			LBL_UI.Content = "Mon Super Démineur";
+			LBL_UI.Content = LBL_UI_DEFAULT_CONTENT;
 
 			//Reset game variables
 			gameDone			= false;
@@ -474,8 +475,10 @@ namespace MinesweeperWPF
 			if (LST_Difficulties.SelectedIndex != (difficulties.Count - 1))
 			{
 				BTN_Play.IsEnabled = true;
+				LBL_UI.Content = LBL_UI_DEFAULT_CONTENT;
 				return;
 			}
+
 			/*
 			I forbid bomb counts over 40% of the total cells number, just like in the Windows XP and Vista version
 			as pseudo-random mine generation may create a seemingly infinite (too long for user) loop, making it
@@ -488,13 +491,14 @@ namespace MinesweeperWPF
 						|| ((bool)CHK_CustomBombNumber.IsChecked && Int32.Parse(TXT_Bombs.Text) <= 0)
 						|| ((bool)CHK_CustomBombNumber.IsChecked && ((double)Int32.Parse(TXT_Bombs.Text) > ((Int32.Parse(TXT_Columns.Text) * Int32.Parse(TXT_Rows.Text)) * PERCENTAGE_OF_BOMBS_ALLOWED))) //see comment above
 				);
-			} catch (NullReferenceException ex)
-			{
-				BTN_Play.IsEnabled = false;
+				LBL_UI.Content = "Nombre incorrect! Taille: " + (MAX_CELLS_FACTOR) + ". Bombes: Entre 0 et " + (PERCENTAGE_OF_BOMBS_ALLOWED * 100) + "% de colonnes x lignes.";
 			} catch (Exception ex) {
+				LBL_UI.Content = "Veuillez entrer un nombre valide.";
 				BTN_Play.IsEnabled = false;
-			} 
-			LBL_UI.Content = "Nombre incorrect! Taille: " + (MAX_CELLS_FACTOR) + ". Bombes: Entre 0 et " + (PERCENTAGE_OF_BOMBS_ALLOWED * 100) + "% de colonnes x lignes.";
+			}
+
+			if (BTN_Play.IsEnabled)
+				LBL_UI.Content = LBL_UI_DEFAULT_CONTENT;
 
 		}
 
