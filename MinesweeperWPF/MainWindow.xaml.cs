@@ -33,6 +33,7 @@ namespace MinesweeperWPF
 
 		private const int IS_A_MINE = 9;
 		private const int PERCENTAGE_OF_BOMB = 10;
+		private const int MAX_CELLS_FACTOR = 50;
 
 		private List<Tuple<string, int, int>> difficulties = new List<Tuple<string, int, int>>();
 
@@ -84,19 +85,19 @@ namespace MinesweeperWPF
 				{
 					gridSize.x = Int32.Parse(TXT_Columns.Text);
 					gridSize.y = Int32.Parse(TXT_Rows.Text);
-					if (gridSize.x < 0 || gridSize.x > 99 || gridSize.y < 0 || gridSize.y > 99)
+					if (gridSize.x <= 0 || gridSize.x > MAX_CELLS_FACTOR || gridSize.y <= 0 || gridSize.y > MAX_CELLS_FACTOR)
 						throw new Exception();
 				} catch (Exception ex)
 				{
-					LBL_UI.Content = "Nombre incorrect! Veuillez insérer un nombre positif inférieur à 100.";
+					LBL_UI.Content = "Nombre incorrect! Veuillez insérer un nombre positif inférieur à " + (MAX_CELLS_FACTOR + 1) + ".";
 					return;
 				}
 			} else {
-				GRD_Menu.Visibility = Visibility.Hidden;
 				gridSize.x = difficulties[(LST_Difficulties.SelectedIndex == -1 ? 0 : LST_Difficulties.SelectedIndex)].Item2;
 				gridSize.y = difficulties[(LST_Difficulties.SelectedIndex == -1 ? 0 : LST_Difficulties.SelectedIndex)].Item3;
 			}
 
+			GRD_Menu.Visibility = Visibility.Hidden;
 			GRDGame.Visibility = Visibility.Visible;
 			GRDGame.Children.Clear();
 			initGrid();
