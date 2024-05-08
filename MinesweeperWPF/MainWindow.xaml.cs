@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace MinesweeperWPF
 {
@@ -42,7 +43,7 @@ namespace MinesweeperWPF
 		private int numberOfCellsLeft = 0;
 		private List<List<int>> gridValues = new List<List<int>>(); //0: no bomb, 9 = bomb here
 		private Boolean firstClick = false;
-
+		private bool gameDone = false;
 
 		public MainWindow()
 		{
@@ -51,7 +52,18 @@ namespace MinesweeperWPF
 			difficulties.Add(new Tuple<string, int, int>("Moyen (16x16)",		16,	16));
 			difficulties.Add(new Tuple<string, int, int>("Difficile (16x30)",	16,	30));
 			difficulties.Add(new Tuple<string, int, int>("Custom",				0,	0));
+			KeyDown += HandleKeyPress;
 			reset();
+		}
+
+		private void HandleKeyPress(object sender, KeyEventArgs e)
+		{
+			if (!gameDone) return;
+			switch (e.Key)
+			{
+				case Key.Enter: reset(); break;
+				default: break;
+			}
 		}
 
 		private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
@@ -153,6 +165,7 @@ namespace MinesweeperWPF
 
 		private void BTN_Discover(object sender, RoutedEventArgs e)
 		{
+			if (gameDone) { }
 			updateUI();
 			Button button = (Button)sender;
 			if (button.Content == "🚩")
@@ -192,9 +205,13 @@ namespace MinesweeperWPF
 			Label label = formatLabelGrid(gridValues[col][row]);
 			if (gridValues[col][row] == IS_A_MINE)
 			{
+				gameDone = true;
+				tempGrid.Children.Add(getMineImage());
+				LBL_UI.Content = "Vous avez perdu! Appuyez sur ENTRÉE pour revenir au menu principal.";
 				MessageBox.Show("You lost!");
-				reset();
-			} else {
+				discoverAllTiles();
+			}
+			else {
 				numberOfCellsLeft--;
 				tempGrid.Children.Add(label);
 				bool isZero = gridValues[col][row] == 0;
@@ -211,7 +228,7 @@ namespace MinesweeperWPF
 				if (numberOfCellsLeft <= 0)
 				{
 					MessageBox.Show("You won!");
-					reset();
+					gameDone = true;
 				}
 			}
 		}
@@ -313,7 +330,10 @@ namespace MinesweeperWPF
 
 		private void reset()
 		{
+			LBL_UI.Content = "Mon Super Démineur";
+
 			//Reset game variables
+			gameDone			= false;
 			gridSize.x			= 0;
 			gridSize.y			= 0;
 			numberOfBomb		= 0;
@@ -373,5 +393,41 @@ namespace MinesweeperWPF
 		{
 			if (!DEBUG_MODE) CHK_DebugMode.Visibility = Visibility.Hidden;
 		}
+
+		private Image getMineImage()
+		{
+			Image image = new Image();
+			BitmapImage bitmap = new BitmapImage(new Uri(Environment.CurrentDirectory + "\\mine.png"));
+			image.Source = bitmap;
+			return image;
+		}
+
+		private void discoverAllTiles()
+		{
+			for (int col = 0; col < gridSize.x; col++)
+			{
+				for(int row = 0; row < gridSize.y; row++)
+				{
+					if (gridValues[col][row] != -1)
+					{
+						Border border = (Border)GetUIElementFromPosition(GRDGame, col, row);
+						Grid tempGrid = (Grid)border.Child;
+
+						tempGrid.Children.Clear();
+						if (gridValues[col][row] == IS_A_MINE)
+						{
+							tempGrid.Children.Add(getMineImage());
+
+						} else {
+							Label label = formatLabelGrid(gridValues[col][row]);
+							tempGrid.Children.Add(label);
+						}
+					}
+
+				}
+
+			}
+		}
+
 	}
 }

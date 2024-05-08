@@ -7,4 +7,8 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy ..\resources\mine.png bin\Debug\net6.0-windows&#xD;&#xA;copy ..\resources\mine.png bin\Release\net6.0-windows" />
+  </Target>
+
 </Project>
