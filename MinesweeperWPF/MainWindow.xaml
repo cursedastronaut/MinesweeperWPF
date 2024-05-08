@@ -36,7 +36,7 @@
             </Button>
             <Label x:Name="LBL_Title" Content="Démineur" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Height="74" Margin="0,28,0,0" VerticalAlignment="Top" Width="298" Foreground="White" FontSize="48"/>
             <ListBox x:Name="LST_Difficulties" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="241,190,241,78" SelectedIndex="0" SelectionChanged="LST_Difficulties_SelectionChanged"/>
-            <CheckBox x:Name="CHK_DebugMode" Content="Debug Mode" HorizontalAlignment="Left" Margin="676,362,0,0" VerticalAlignment="Top" Height="17" Width="94"/>
+            <CheckBox x:Name="CHK_DebugMode" Content="Debug Mode" HorizontalAlignment="Left" Margin="676,362,0,0" VerticalAlignment="Top" Height="17" Width="94" Loaded="hidingDebugCheckbox"/>
             <TextBox x:Name="TXT_Columns" HorizontalAlignment="Left" VerticalContentAlignment="Center" Height="57" Margin="556,190,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="214" MaxLines="1" MaxLength="2" FontSize="36"/>
             <TextBox x:Name="TXT_Rows" HorizontalAlignment="Left" VerticalContentAlignment="Center" Height="57" Margin="556,254,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="214" MaxLines="1" MaxLength="2" FontSize="36"/>
             <Label x:Name="LBL_Columns" VerticalContentAlignment="Center" Content="colonnes" HorizontalAlignment="Left" Height="57" Margin="602,190,0,0" VerticalAlignment="Top" Width="168" FontSize="36"/>

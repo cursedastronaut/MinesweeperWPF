@@ -25,9 +25,9 @@ namespace MinesweeperWPF
 		}
 
 #if DEBUG
-		private const bool DEBUG_MODE = false;
-#else
 		private const bool DEBUG_MODE = true;
+#else
+		private const bool DEBUG_MODE = false;
 #endif
 
 		private const int IS_A_MINE = 9;
@@ -259,25 +259,17 @@ namespace MinesweeperWPF
 			}
 		}
 
+		//Puts in each tile the number of mines around it.
 		private void generateMineMap() {
 			//Generate mine map
 			for (int col = 0; col < gridSize.x; col++)
-			{
 				for (int row = 0; row < gridSize.y; row++)
-				{
-					if (gridValues[col][row] == IS_A_MINE) { continue; }
-					for (int offsetCol = (col == 0 ? 0 : -1); offsetCol <= ((col == gridSize.x - 1) ? 0 : 1); ++offsetCol)
-					{
-						for (int offsetRow = (row == 0 ? 0 : -1); offsetRow <= ((row == gridSize.y - 1) ? 0 : 1); ++offsetRow)
-						{
-							if (gridValues[col + offsetCol][row + offsetRow] == IS_A_MINE)
-							{
-								gridValues[col][row]++;
-							}
-						}
-					}
-				}
-			}
+					if (gridValues[col][row] != IS_A_MINE)
+						for (int offsetCol = (col == 0 ? 0 : -1); offsetCol <= ((col == gridSize.x - 1) ? 0 : 1); ++offsetCol)
+							for (int offsetRow = (row == 0 ? 0 : -1); offsetRow <= ((row == gridSize.y - 1) ? 0 : 1); ++offsetRow)
+								if (gridValues[col + offsetCol][row + offsetRow] == IS_A_MINE)
+									gridValues[col][row]++;
+
 		}
 
 		private void generateMine()
