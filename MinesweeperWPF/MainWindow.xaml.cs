@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -23,6 +24,12 @@ namespace MinesweeperWPF
 			public int y;
 		}
 
+#if DEBUG
+		private const bool DEBUG_MODE = false;
+#else
+		private const bool DEBUG_MODE = true;
+#endif
+
 		private const int IS_A_MINE = 9;
 		private const int PERCENTAGE_OF_BOMB = 10;
 
@@ -36,12 +43,14 @@ namespace MinesweeperWPF
 		private List<List<int>> gridValues = new List<List<int>>(); //0: no bomb, 9 = bomb here
 		private Boolean firstClick = false;
 
+
 		public MainWindow()
 		{
 			InitializeComponent();
 			difficulties.Add(new Tuple<string, int, int>("Débutant (9x9)",		9,	9));
 			difficulties.Add(new Tuple<string, int, int>("Moyen (16x16)",		16,	16));
 			difficulties.Add(new Tuple<string, int, int>("Difficile (16x30)",	16,	30));
+			difficulties.Add(new Tuple<string, int, int>("Custom",				0,	0));
 			reset();
 		}
 
@@ -58,12 +67,23 @@ namespace MinesweeperWPF
 
 		private void BTN_Play_Click(object sender, RoutedEventArgs e)
 		{
-			GRD_Menu.Visibility = Visibility.Hidden;
-
-			ListBox difficultyBox = (ListBox)GRD_Menu.Children[0];
-			CheckBox debugMode = (CheckBox)GRD_Menu.Children[3];
-			gridSize.x = difficulties[(difficultyBox.SelectedIndex == -1 ? 0 : difficultyBox.SelectedIndex)].Item2;
-			gridSize.y = difficulties[(difficultyBox.SelectedIndex == -1 ? 0 : difficultyBox.SelectedIndex)].Item3;
+			if (LST_Difficulties.SelectedIndex == (difficulties.Count - 1)) {
+				try
+				{
+					gridSize.x = Int32.Parse(TXT_Columns.Text);
+					gridSize.y = Int32.Parse(TXT_Rows.Text);
+					if (gridSize.x < 0 || gridSize.x > 99 || gridSize.y < 0 || gridSize.y > 99)
+						throw new Exception();
+				} catch (Exception ex)
+				{
+					LBL_UI.Content = "Nombre incorrect! Veuillez insérer un nombre positif inférieur à 100.";
+					return;
+				}
+			} else {
+				GRD_Menu.Visibility = Visibility.Hidden;
+				gridSize.x = difficulties[(LST_Difficulties.SelectedIndex == -1 ? 0 : LST_Difficulties.SelectedIndex)].Item2;
+				gridSize.y = difficulties[(LST_Difficulties.SelectedIndex == -1 ? 0 : LST_Difficulties.SelectedIndex)].Item3;
+			}
 
 			GRDGame.Visibility = Visibility.Visible;
 			GRDGame.Children.Clear();
@@ -71,7 +91,8 @@ namespace MinesweeperWPF
 			generateMine();
 			updateUI();
 #if DEBUG
-			if (debugMode.IsChecked == true)
+			//Not casting it will make it cause an error.
+			if ((bool)CHK_DebugMode.IsChecked)
 				turnMinesRed();
 #endif
 		}
@@ -80,6 +101,7 @@ namespace MinesweeperWPF
 		{
 			firstClick = true;
 			GRDGame.ColumnDefinitions.Clear();
+			GRDGame.RowDefinitions.Clear();
 			for (int i = 0; i < gridSize.x; i++)
 			{
 				GRDGame.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
@@ -145,6 +167,8 @@ namespace MinesweeperWPF
 			Grid tempGrid = (Grid)VisualTreeHelper.GetParent(button);
 			tempGrid.Children.Clear();
 
+			//It's a common rule in Minesweeper games to never be able to get blown up on your first click
+			//so we move the bomb somewhere else after the first click
 			if (firstClick) {
 				if (gridValues[col][row] == IS_A_MINE)
 				{
@@ -311,54 +335,7 @@ namespace MinesweeperWPF
 			GRDGame.Visibility = Visibility.Hidden;
 			GRD_Menu.Visibility = Visibility.Visible;
 
-			BrushConverter bc = new BrushConverter();
-
-			//Listbox for game difficulty
-			ListBox list = new ListBox();
-			list.Height		= 128;
-			list.Width		= 128;
-			list.Margin = new Thickness(0, 128, 0, 0);
-			list.Background = (Brush)bc.ConvertFrom("#77C9E5FF");
-			list.Foreground = (Brush)bc.ConvertFrom("#FFFFFF");
-
-			foreach (var difficulty in difficulties)
-			{
-				list.Items.Add(difficulty.Item1);
-			}
-
-			//Button to play
-			Button play = new Button();
-			play.Margin = new Thickness(128, 256+64, 128, 0);
-			play.Content = "Jouer";
-			play.Click += BTN_Play_Click;
-			play.Background = (Brush)bc.ConvertFrom("#77C9E5FF");
-			play.Foreground = (Brush)bc.ConvertFrom("#FFFFFF");
-
-			//Title of the game
-			Label title = new Label();
-			title.Content = "Minesweeper";
-			title.FontSize = 48;
-			title.Foreground = new SolidColorBrush(Colors.White);
-			title.HorizontalContentAlignment = HorizontalAlignment.Center;
-			title.Height = 64;
-			title.Margin = new Thickness(0, -128, 0, 0);
-
-#if DEBUG
-			//Checkbox to enable DebugMode
-			CheckBox checkBox = new CheckBox();
-			checkBox.Content = "Debug Mode";
-			checkBox.Width = 128;
-			checkBox.Height = 16;
-			checkBox.Margin = new Thickness(0, -16, 0, 0);
-#endif
-
-			GRD_Menu.Children.Add(list);
-			GRD_Menu.Children.Add(play);
-			GRD_Menu.Children.Add(title);
-#if DEBUG
-			GRD_Menu.Children.Add(checkBox);
-#endif
-
+			GRDGame.Children.Clear();
 		}
 
 		private Label formatLabelGrid(int value)
@@ -370,6 +347,33 @@ namespace MinesweeperWPF
 			label.VerticalContentAlignment = VerticalAlignment.Center;
 			return label;
 		}
+
+		private void GRD_Menu_Loaded(object sender, RoutedEventArgs e)
+		{
+			//Listbox for game difficulty
+			foreach (var difficulty in difficulties)
+			{
+				LST_Difficulties.Items.Add(difficulty.Item1);
+			}
+		}
+
+		private void LST_Difficulties_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			//If User selected last option, which is Custom
+			if (LST_Difficulties.SelectedIndex == (difficulties.Count-1))
+			{
+				TXT_Columns	.Visibility = Visibility.Visible;
+				TXT_Rows	.Visibility = Visibility.Visible;
+				LBL_Columns	.Visibility = Visibility.Visible;
+				LBL_Rows	.Visibility = Visibility.Visible;
+			} else {
+				TXT_Columns	.Visibility = Visibility.Hidden;
+				TXT_Rows	.Visibility = Visibility.Hidden;
+				LBL_Columns	.Visibility = Visibility.Hidden;
+				LBL_Rows	.Visibility = Visibility.Hidden;
+			}
+		}
+
 
 	}
 }

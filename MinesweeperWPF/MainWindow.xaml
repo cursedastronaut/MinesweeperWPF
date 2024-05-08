@@ -15,13 +15,32 @@
         <Grid x:Name="GRDGame" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="AliceBlue" Grid.Row="1">
 
         </Grid>
-        <Grid x:Name="GRD_Menu" HorizontalAlignment="Center" Height="389" Margin="0,23,0,0" VerticalAlignment="Top" Width="780" Grid.RowSpan="2">
+        <Grid x:Name="GRD_Menu" HorizontalAlignment="Center" Height="389" Margin="0,23,0,0" VerticalAlignment="Top" Width="780" Grid.RowSpan="2" Loaded="GRD_Menu_Loaded">
             <Grid.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FF31495F"/>
+                    <GradientStop Color="#FF31495F" Offset="0.007"/>
                     <GradientStop Color="#FFC9E5FF" Offset="1"/>
                 </LinearGradientBrush>
             </Grid.Background>
+            <Button x:Name="BTN_Play" Content="Jouer" HorizontalAlignment="Center" Height="68" Margin="0,311,0,0" VerticalAlignment="Top" Width="298" Click="BTN_Play_Click" FontSize="24" FontFamily="Leelawadee UI">
+                <Button.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FFF0F6F9" Offset="0.06"/>
+                        <GradientStop Color="#FFC4E0EB" Offset="0.96"/>
+                        <GradientStop Color="#FF4B8194" Offset="1"/>
+                        <GradientStop Color="#FF96F0FB" Offset="0.033"/>
+                        <GradientStop Color="#FF4B8194"/>
+                        <GradientStop Color="#FF96F0FB" Offset="0.983"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+            </Button>
+            <Label x:Name="LBL_Title" Content="Démineur" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Height="74" Margin="0,28,0,0" VerticalAlignment="Top" Width="298" Foreground="White" FontSize="48"/>
+            <ListBox x:Name="LST_Difficulties" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="241,190,241,78" SelectedIndex="0" SelectionChanged="LST_Difficulties_SelectionChanged"/>
+            <CheckBox x:Name="CHK_DebugMode" Content="Debug Mode" HorizontalAlignment="Left" Margin="676,362,0,0" VerticalAlignment="Top" Height="17" Width="94"/>
+            <TextBox x:Name="TXT_Columns" HorizontalAlignment="Left" VerticalContentAlignment="Center" Height="57" Margin="556,190,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="214" MaxLines="1" MaxLength="2" FontSize="36"/>
+            <TextBox x:Name="TXT_Rows" HorizontalAlignment="Left" VerticalContentAlignment="Center" Height="57" Margin="556,254,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="214" MaxLines="1" MaxLength="2" FontSize="36"/>
+            <Label x:Name="LBL_Columns" VerticalContentAlignment="Center" Content="colonnes" HorizontalAlignment="Left" Height="57" Margin="602,190,0,0" VerticalAlignment="Top" Width="168" FontSize="36"/>
+            <Label x:Name="LBL_Rows" VerticalContentAlignment="Center" Content="lignes" HorizontalAlignment="Left" Height="57" Margin="602,254,0,0" VerticalAlignment="Top" Width="168" FontSize="36"/>
         </Grid>
     </Grid>
 </Window>
