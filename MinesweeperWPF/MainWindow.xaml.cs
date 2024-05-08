@@ -64,10 +64,19 @@ namespace MinesweeperWPF
 
 		private void HandleKeyPress(object sender, KeyEventArgs e)
 		{
-			if (!gameDone) return;
 			switch (e.Key)
 			{
-				case Key.Enter: reset(); break;
+				case Key.Enter:		if (gameDone) reset(); break;
+				case Key.Escape:
+					if (gridSize.x > 0) //Since it gets reset, it's a good way to know whether we're in game or not.
+					{
+						if (MessageBox.Show("Souhaitez-vous abandonner ?", "Démineur", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+							reset();
+					} else {
+						if (MessageBox.Show("Souhaitez-vous quitter le jeu ?", "Démineur", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+							Application.Current.Shutdown();
+					}
+					break;
 				default: break;
 			}
 		}
@@ -120,7 +129,7 @@ namespace MinesweeperWPF
 			generateMine();
 			updateUI();
 #if DEBUG
-			//Not casting it will make it cause an error.
+			//Not casting will cause an error.
 			if ((bool)CHK_DebugMode.IsChecked)
 				turnMinesRed();
 #endif
@@ -208,7 +217,7 @@ namespace MinesweeperWPF
 						Random rnd = new Random();
 						int colNewMine = rnd.Next() % gridSize.x;
 						int rowNewMine = rnd.Next() % gridSize.y;
-						hasFoundSuitablePlaceForBomb = gridValues[colNewMine][rowNewMine] == IS_A_MINE;
+						hasFoundSuitablePlaceForBomb = gridValues[colNewMine][rowNewMine] != IS_A_MINE;
 						if (hasFoundSuitablePlaceForBomb)
 							gridValues[colNewMine][rowNewMine] = IS_A_MINE;
 					}
@@ -325,7 +334,7 @@ namespace MinesweeperWPF
 					Random rnd = new Random();
 					int colNewMine = rnd.Next() % gridSize.x;
 					int rowNewMine = rnd.Next() % gridSize.y;
-					hasFoundSuitablePlaceForBomb = gridValues[colNewMine][rowNewMine] == IS_A_MINE;
+					hasFoundSuitablePlaceForBomb = gridValues[colNewMine][rowNewMine] != IS_A_MINE;
 					if (hasFoundSuitablePlaceForBomb)
 						gridValues[colNewMine][rowNewMine] = IS_A_MINE;
 				}
