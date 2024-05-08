@@ -31,8 +31,9 @@ namespace MinesweeperWPF
 		private const bool DEBUG_MODE = false;
 #endif
 
-		private const int IS_A_MINE = 9;
 		private const int PERCENTAGE_OF_BOMB = 10;
+		private const double PERCENTAGE_OF_BOMBS_ALLOWED = 40 / 100;
+		private const int IS_A_MINE = 9;
 		private const int MAX_CELLS_FACTOR = 50;
 
 		private List<Tuple<string, int, int>> difficulties = new List<Tuple<string, int, int>>();
@@ -45,6 +46,7 @@ namespace MinesweeperWPF
 		private List<List<int>> gridValues = new List<List<int>>(); //0: no bomb, 9 = bomb here
 		private Boolean firstClick = false;
 		private bool gameDone = false;
+		private bool customBombNumber = false;
 
 		public MainWindow()
 		{
@@ -85,11 +87,22 @@ namespace MinesweeperWPF
 				{
 					gridSize.x = Int32.Parse(TXT_Columns.Text);
 					gridSize.y = Int32.Parse(TXT_Rows.Text);
-					if (gridSize.x <= 0 || gridSize.x > MAX_CELLS_FACTOR || gridSize.y <= 0 || gridSize.y > MAX_CELLS_FACTOR)
+					customBombNumber = (bool)CHK_CustomBombNumber.IsChecked;
+					if (customBombNumber)
+						numberOfBomb = Int32.Parse(TXT_Bombs.Text);
+					/*
+					 I forbid bomb counts over 40% of the total cells number, just like in the Windows XP and Vista version
+					 as pseudo-random mine generation may create a seemingly infinite (too long for user) loop, making it
+					 looked like the program has crashed.
+					 */
+					if (
+						gridSize.x <= 0 || gridSize.x > MAX_CELLS_FACTOR || gridSize.y <= 0 || gridSize.y > MAX_CELLS_FACTOR
+						|| (customBombNumber && numberOfBomb <= 0) || (customBombNumber && (double)numberOfBomb > ((gridSize.x * gridSize.y) * PERCENTAGE_OF_BOMBS_ALLOWED)) //see comment above
+						)
 						throw new Exception();
 				} catch (Exception ex)
 				{
-					LBL_UI.Content = "Nombre incorrect! Veuillez insérer un nombre positif inférieur à " + (MAX_CELLS_FACTOR + 1) + ".";
+					LBL_UI.Content = "Nombre incorrect! Taille: " + (MAX_CELLS_FACTOR + 1) + ". Bombes: Entre 0 et " + ((gridSize.x * gridSize.y) * PERCENTAGE_OF_BOMBS_ALLOWED) + " (colonnes x lignes x 0.4).";
 					return;
 				}
 			} else {
@@ -292,17 +305,27 @@ namespace MinesweeperWPF
 
 		}
 
+		//Generate mines
 		private void generateMine()
 		{
-			//Generate mines
-			numberOfBomb = (gridSize .x* gridSize.y) / PERCENTAGE_OF_BOMB;
+			if (!customBombNumber)
+				numberOfBomb = (gridSize .x* gridSize.y) / PERCENTAGE_OF_BOMB;
+
 			flagTotal = numberOfBomb;
 			flagLeft = flagTotal;
 			numberOfCellsLeft = gridSize .x* gridSize.y - numberOfBomb;
 			for (int i = 0; i < numberOfBomb; ++i)
 			{
-				Random rnd = new Random();
-				gridValues[rnd.Next() % gridSize.x][rnd.Next() % gridSize.y] = IS_A_MINE; //Setting a mine
+				bool hasFoundSuitablePlaceForBomb = false;
+				while (!hasFoundSuitablePlaceForBomb)
+				{
+					Random rnd = new Random();
+					int colNewMine = rnd.Next() % gridSize.x;
+					int rowNewMine = rnd.Next() % gridSize.y;
+					hasFoundSuitablePlaceForBomb = gridValues[colNewMine][rowNewMine] == IS_A_MINE;
+					if (hasFoundSuitablePlaceForBomb)
+						gridValues[colNewMine][rowNewMine] = IS_A_MINE;
+				}
 			}
 		}
 
@@ -337,6 +360,7 @@ namespace MinesweeperWPF
 
 			//Reset game variables
 			gameDone			= false;
+			customBombNumber	= false;
 			gridSize.x			= 0;
 			gridSize.y			= 0;
 			numberOfBomb		= 0;
@@ -377,15 +401,21 @@ namespace MinesweeperWPF
 			//If User selected last option, which is Custom
 			if (LST_Difficulties.SelectedIndex == (difficulties.Count-1))
 			{
-				TXT_Columns	.Visibility = Visibility.Visible;
-				TXT_Rows	.Visibility = Visibility.Visible;
-				LBL_Columns	.Visibility = Visibility.Visible;
-				LBL_Rows	.Visibility = Visibility.Visible;
+				CHK_CustomBombNumber	.Visibility = Visibility.Visible;
+				TXT_Columns				.Visibility = Visibility.Visible;
+				TXT_Rows				.Visibility = Visibility.Visible;
+				TXT_Bombs				.Visibility = Visibility.Visible;
+				LBL_Columns				.Visibility = Visibility.Visible;
+				LBL_Rows				.Visibility = Visibility.Visible;
+				LBL_Bombs				.Visibility = Visibility.Visible;
 			} else {
-				TXT_Columns	.Visibility = Visibility.Hidden;
-				TXT_Rows	.Visibility = Visibility.Hidden;
-				LBL_Columns	.Visibility = Visibility.Hidden;
-				LBL_Rows	.Visibility = Visibility.Hidden;
+				CHK_CustomBombNumber	.Visibility = Visibility.Hidden;
+				TXT_Columns				.Visibility = Visibility.Hidden;
+				TXT_Rows				.Visibility = Visibility.Hidden;
+				TXT_Bombs				.Visibility = Visibility.Hidden;
+				LBL_Columns				.Visibility = Visibility.Hidden;
+				LBL_Rows				.Visibility = Visibility.Hidden;
+				LBL_Bombs				.Visibility = Visibility.Hidden;
 			}
 		}
 
