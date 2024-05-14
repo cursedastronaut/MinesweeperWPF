@@ -375,8 +375,7 @@ namespace MinesweeperWPF
 			numberOfCellsLeft = gridSize .x* gridSize.y - numberOfBomb;
 			for (int i = 0; i < numberOfBomb; ++i)
 			{
-				bool hasFoundSuitablePlaceForBomb = false;
-				while (!hasFoundSuitablePlaceForBomb)
+				for (bool hasFoundSuitablePlaceForBomb = false; !hasFoundSuitablePlaceForBomb;)
 				{
 					Random rnd = new Random();
 					int colNewMine = rnd.Next() % gridSize.x;
@@ -435,12 +434,12 @@ namespace MinesweeperWPF
 			LoadScoresToListBox();
 
 			//Hiding the game, and showing Menu
-			GRDGame.Visibility = Visibility.Hidden;
-			GRD_Menu.Visibility = Visibility.Visible;
-			GRD_SubMenu.Visibility = Visibility.Visible;
-			GRD_BestScore.Visibility = Visibility.Hidden;
-			BTN_BestScore.Content = "Best Score";
-			isOnBestScorePage = false;
+			GRDGame.Visibility			= Visibility.Hidden;
+			GRD_Menu.Visibility			= Visibility.Visible;
+			GRD_SubMenu.Visibility		= Visibility.Visible;
+			GRD_BestScore.Visibility	= Visibility.Hidden;
+			BTN_BestScore.Content		= "Best Score";
+			isOnBestScorePage			= false;
 
 
 			GRDGame.Children.Clear();
