@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using System.Xml.Linq;
 using System.Media;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace MinesweeperWPF
 {
@@ -62,10 +63,10 @@ namespace MinesweeperWPF
 		public MainWindow()
 		{
 			InitializeComponent();
-			difficulties.Add(new Tuple<string, int, int>("Débutant (9x9)",		9,	9));
-			difficulties.Add(new Tuple<string, int, int>("Moyen (16x16)",		16,	16));
-			difficulties.Add(new Tuple<string, int, int>("Difficile (16x30)",	16,	30));
-			difficulties.Add(new Tuple<string, int, int>("Custom",				0,	0));
+			difficulties.Add(new Tuple<string, int, int>(EveryString.DIFFICULTY_EASY	+ " (9x9)",		9,	9));
+			difficulties.Add(new Tuple<string, int, int>(EveryString.DIFFICULTY_MEDIUM	+ " (16x16)",	16,	16));
+			difficulties.Add(new Tuple<string, int, int>(EveryString.DIFFICULTY_HARD	+ " (16x30)",	16,	30));
+			difficulties.Add(new Tuple<string, int, int>(EveryString.DIFFICULTY_CUSTOM	+ " ",			0,	0));
 			KeyDown += HandleKeyPress;
 			reset();
 		}
@@ -78,10 +79,10 @@ namespace MinesweeperWPF
 				case Key.Escape:
 					if (gridSize.x > 0) //Since it gets reset, it's a good way to know whether we're in game or not.
 					{
-						if (MessageBox.Show("Souhaitez-vous abandonner ?", "Démineur", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+						if (MessageBox.Show(EveryString.POPUP_ABANDON, EveryString.TITLE, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
 							reset();
 					} else {
-						if (MessageBox.Show("Souhaitez-vous quitter le jeu ?", "Démineur", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+						if (MessageBox.Show(EveryString.POPUP_QUIT_CONFIRMATION, EveryString.TITLE, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
 							Application.Current.Shutdown();
 					}
 					break;
@@ -104,7 +105,7 @@ namespace MinesweeperWPF
 		{
 			if (gridSize.x > 0) //Since it gets reset, it's a good way to know whether we're in game or not.
 			{
-				if (MessageBox.Show("Souhaitez-vous abandonner ?", "Démineur", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+				if (MessageBox.Show(EveryString.POPUP_ABANDON, EveryString.TITLE, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
 					reset();
 			}
 		}
@@ -134,7 +135,7 @@ namespace MinesweeperWPF
 #if DEBUG //We don't want the function name in Release.
 					Trace.WriteLine("USER Exception: " + ex.ToString() + "\n\tCaught in BTN_Play_Click");
 #endif
-					LBL_UI.Content = "Nombre incorrect! Taille: " + (MAX_CELLS_FACTOR + 1) + ". Bombes: Entre 0 et " + ((gridSize.x * gridSize.y) * PERCENTAGE_OF_BOMBS_ALLOWED) + " (colonnes x lignes x 0.4).";
+					LBL_UI.Content = EveryString.MENU_INCORRECT_NUMBER_SIZE + (MAX_CELLS_FACTOR + 1) + EveryString.MENU_INCORRECT_NUMBER_BOMBS + ((gridSize.x * gridSize.y) * PERCENTAGE_OF_BOMBS_ALLOWED) + EveryString.MENU_INCORRECT_NUMBER_PERCENT;
 					return;
 				}
 			} else {
@@ -295,8 +296,8 @@ namespace MinesweeperWPF
 				tempGrid.Children.Add(getMineImage());
 				timer.Stop();
 				time = 0;
-				LBL_UI.Content = "Vous avez perdu! Appuyez sur ENTRÉE pour revenir au menu principal.";
-				MessageBox.Show("Dommage, vous avez perdu...", "Démineur");
+				LBL_UI.Content = EveryString.POPUP_LOST;
+				MessageBox.Show(EveryString.UI_LOST, EveryString.TITLE);
 				discoverAllTiles();
 			}
 			else {
@@ -319,12 +320,12 @@ namespace MinesweeperWPF
 					LST_BestScore.Items.Add(
 						(time / 60).ToString(TWO_NUM_STRING_FORMAT) + ":" + (time % 60).ToString(TWO_NUM_STRING_FORMAT)
 						+ "  -  " + gridSize.x + "x" + gridSize.y
-						+ "  -  " + numberOfBomb + " bombes."
+						+ "  -  " + numberOfBomb + " " + EveryString.BOMBS + "."
 					);
 					WriteScore();
 					time = 0;
-					LBL_UI.Content = "Vous avez gagné! Appuyez sur ENTRÉE pour revenir au menu principal.";
-					MessageBox.Show("Félicitations, vous avez gagné!", "Démineur");
+					LBL_UI.Content = EveryString.UI_WIN;
+					MessageBox.Show(EveryString.POPUP_WIN, EveryString.TITLE);
 					discoverAllTiles();
 					gameDone = true;
 				}
@@ -431,9 +432,9 @@ namespace MinesweeperWPF
 
 		private void updateUI()
 		{
-			LBL_UI.Content = "Cases restantes: " + numberOfCellsLeft + "/" + (gridSize.x * gridSize.y - numberOfBomb)
-					+ "   Drapeaux: " + flagLeft + "/" + flagTotal
-					+ "   Temps: " + (time / 60).ToString(TWO_NUM_STRING_FORMAT) + ":" + (time % 60).ToString(TWO_NUM_STRING_FORMAT);
+			LBL_UI.Content = EveryString.UI_CELLS_LEFT + numberOfCellsLeft + "/" + (gridSize.x * gridSize.y - numberOfBomb)
+					+ "   " + EveryString.UI_FLAGS + flagLeft + "/" + flagTotal
+					+ "   " + EveryString.UI_TIMES + (time / 60).ToString(TWO_NUM_STRING_FORMAT) + ":" + (time % 60).ToString(TWO_NUM_STRING_FORMAT);
 		}
 
 		private void reset()
@@ -461,7 +462,7 @@ namespace MinesweeperWPF
 			GRD_Menu.Visibility			= Visibility.Visible;
 			GRD_SubMenu.Visibility		= Visibility.Visible;
 			GRD_BestScore.Visibility	= Visibility.Hidden;
-			BTN_BestScore.Content		= "Best Score";
+			BTN_BestScore.Content		= EveryString.MENU_TIMES;
 			isOnBestScorePage			= false;
 
 
