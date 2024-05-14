@@ -1,4 +1,5 @@
-﻿<!-- Here are the additional features I've added:
+﻿<!--
+	Here are the additional features I've added:
 	- You can't click on a bomb first try. The program will move it.
 	- ESCAPE makes the program ask the user if they want to give up or quit
 	- Difficulty with textbox disabling
@@ -9,9 +10,9 @@
 	- There's a timer in game
 	- Your times are being saved to best_scores.xml
 	- Your times are being loaded in the ListBox
-	-->
-	
-	<Window x:Class="MinesweeperWPF.MainWindow"
+-->
+
+<Window x:Class="MinesweeperWPF.MainWindow"
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -28,16 +29,16 @@
 		<Grid x:Name="GRDGame" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="AliceBlue" Grid.Row="1">
 
 		</Grid>
-		<Grid x:Name="GRD_Menu" HorizontalAlignment="Center" Height="389" Margin="0,23,0,0" VerticalAlignment="Top" Width="780" Grid.RowSpan="2" Loaded="GRD_Menu_Loaded">
+		<Grid x:Name="GRD_Menu" Margin="10,23,10,22" Grid.RowSpan="2" Loaded="GRD_Menu_Loaded">
 			<Grid.Background>
 				<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
 					<GradientStop Color="#FF31495F" Offset="0.007"/>
 					<GradientStop Color="#FFC9E5FF" Offset="1"/>
 				</LinearGradientBrush>
 			</Grid.Background>
-			<Label x:Name="LBL_Title" Content="Démineur" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Height="74" Margin="0,28,0,0" VerticalAlignment="Top" Width="298" Foreground="White" FontSize="48"/>
+			<Label x:Name="LBL_Title" Content="Démineur" HorizontalContentAlignment="Center" Height="74" Margin="241,28,241,0" VerticalAlignment="Top" Foreground="White" FontSize="48"/>
 			<Grid x:Name="GRD_SubMenu">
-				<Button x:Name="BTN_Play" Content="Jouer" HorizontalAlignment="Center" Height="68" Margin="0,311,0,0" VerticalAlignment="Top" Width="298" Click="BTN_Play_Click" FontSize="24" FontFamily="Leelawadee UI">
+				<Button x:Name="BTN_Play" Content="Jouer" HorizontalAlignment="Center" Margin="0,0,0,10" Width="298" Click="BTN_Play_Click" FontSize="24" FontFamily="Leelawadee UI" Height="68" VerticalAlignment="Bottom">
 					<Button.Background>
 						<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
 							<GradientStop Color="#FFF0F6F9" Offset="0.06"/>
@@ -48,21 +49,31 @@
 							<GradientStop Color="#FF96F0FB" Offset="0.983"/>
 						</LinearGradientBrush>
 					</Button.Background>
+					<Button.Resources>
+						<Style TargetType="Border">
+							<Setter Property="CornerRadius" Value="10"/>
+						</Style>
+					</Button.Resources>
 				</Button>
-				<ListBox x:Name="LST_Difficulties" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="241,190,241,78" SelectedIndex="0" SelectionChanged="LST_Difficulties_SelectionChanged"/>
-				<CheckBox x:Name="CHK_DebugMode" Content="Debug Mode" HorizontalAlignment="Left" Margin="676,362,0,0" VerticalAlignment="Top" Height="17" Width="94" Loaded="hidingDebugCheckbox"/>
-				<TextBox x:Name="TXT_Columns" HorizontalAlignment="Left" VerticalContentAlignment="Center" Height="57" Margin="556,190,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="214" MaxLines="1" MaxLength="2" FontSize="36" TextChanged="checkCustomValues"/>
-				<TextBox x:Name="TXT_Rows" HorizontalAlignment="Left" VerticalContentAlignment="Center" Height="57" Margin="556,254,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="214" MaxLines="1" MaxLength="2" FontSize="36" TextChanged="checkCustomValues"/>
-				<Label x:Name="LBL_Columns" VerticalContentAlignment="Center" Content="colonnes" HorizontalAlignment="Left" Height="57" Margin="602,190,0,0" VerticalAlignment="Top" Width="168" FontSize="36"/>
-				<Label x:Name="LBL_Rows" VerticalContentAlignment="Center" Content="lignes" HorizontalAlignment="Left" Height="57" Margin="602,254,0,0" VerticalAlignment="Top" Width="168" FontSize="36"/>
-				<TextBox x:Name="TXT_Bombs" HorizontalAlignment="Left" VerticalContentAlignment="Center" Height="57" Margin="22,251,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="214" MaxLines="1" MaxLength="2" FontSize="36" TextChanged="checkCustomValues"/>
-				<Label x:Name="LBL_Bombs" VerticalContentAlignment="Center" Content="bombes" HorizontalAlignment="Left" Height="57" Margin="68,251,0,0" VerticalAlignment="Top" Width="168" FontSize="36"/>
-				<CheckBox x:Name="CHK_CustomBombNumber" Content="Nombre de bombes&#x0a;personnalisé" HorizontalAlignment="Left" Margin="22,194,0,0" VerticalAlignment="Top" Height="52" Width="214" Loaded="hidingDebugCheckbox" FontSize="14" Checked="checkCustomValues" Unchecked="checkCustomValues"/>
+				<ListBox x:Name="LST_Difficulties" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="241,0,241,78" SelectedIndex="0" SelectionChanged="LST_Difficulties_SelectionChanged" Height="121" VerticalAlignment="Bottom"/>
+				<CheckBox x:Name="CHK_DebugMode" Content="Debug Mode" Margin="0,0,10,10" Loaded="hidingDebugCheckbox" Height="17" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="94"/>
+				<TextBox x:Name="TXT_Columns" VerticalContentAlignment="Center" Height="57" Margin="0,0,10,173" TextWrapping="Wrap" Text="10" VerticalAlignment="Bottom" MaxLines="1" MaxLength="5" FontSize="36" TextChanged="checkCustomValues" HorizontalAlignment="Right" Width="214"/>
+				<TextBox x:Name="TXT_Rows" VerticalContentAlignment="Center" Margin="0,0,10,78" TextWrapping="Wrap" Text="10" MaxLines="1" MaxLength="5" FontSize="36" TextChanged="checkCustomValues" Height="57" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="214"/>
+				<Label x:Name="LBL_Columns" VerticalContentAlignment="Center" Content="Colonnes" Height="28" Margin="0,0,10,230" VerticalAlignment="Bottom" FontSize="14" MouseLeftButtonDown="LBL_Columns_MouseLeftButtonDown" Foreground="White" HorizontalAlignment="Right" Width="214"/>
+				<Label x:Name="LBL_Rows" VerticalContentAlignment="Center" Content="Lignes" Height="38" Margin="0,0,10,135" VerticalAlignment="Bottom" FontSize="14" Foreground="White" HorizontalAlignment="Right" Width="214"/>
+				<TextBox x:Name="TXT_Bombs" VerticalContentAlignment="Center" Margin="22,0,0,81" TextWrapping="Wrap" Text="10" MaxLines="1" MaxLength="5" FontSize="36" TextChanged="checkCustomValues" HorizontalAlignment="Left" Width="214" Height="57" VerticalAlignment="Bottom"/>
+				<CheckBox x:Name="CHK_CustomBombNumber" Content="Nombre de bombes&#x0a;personnalisé" Margin="22,0,0,138" Loaded="hidingDebugCheckbox" FontSize="14" Checked="checkCustomValues" Unchecked="checkCustomValues" Foreground="White" Height="52" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="214"/>
 			</Grid>
 			<Grid x:Name="GRD_BestScore">
-				<ListBox x:Name="LST_BestScore" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="241,107,241,78"/>
+				<ListBox x:Name="LST_BestScore" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0,102,241,78" HorizontalAlignment="Right" Width="298"/>
 			</Grid>
-			<Button x:Name="BTN_BestScore" Content="Best Score" HorizontalAlignment="Left" Height="57" Margin="9,8,0,0" VerticalAlignment="Top" Width="169" Click="BTN_BestScore_Click"/>
+			<Button x:Name="BTN_BestScore" Content="Best Score" HorizontalAlignment="Left" Height="57" Margin="9,8,0,0" VerticalAlignment="Top" Width="169" Click="BTN_BestScore_Click">
+				<Button.Resources>
+					<Style TargetType="Border">
+						<Setter Property="CornerRadius" Value="10"/>
+					</Style>
+				</Button.Resources>
+			</Button>
 		</Grid>
 	</Grid>
 </Window>

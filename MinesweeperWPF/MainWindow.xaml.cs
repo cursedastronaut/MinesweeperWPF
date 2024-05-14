@@ -477,8 +477,6 @@ namespace MinesweeperWPF
 				TXT_Bombs				.Visibility = Visibility.Visible;
 				LBL_Columns				.Visibility = Visibility.Visible;
 				LBL_Rows				.Visibility = Visibility.Visible;
-				LBL_Bombs				.Visibility = Visibility.Visible;
-				
 			} else {
 				CHK_CustomBombNumber	.Visibility = Visibility.Hidden;
 				TXT_Columns				.Visibility = Visibility.Hidden;
@@ -486,7 +484,6 @@ namespace MinesweeperWPF
 				TXT_Bombs				.Visibility = Visibility.Hidden;
 				LBL_Columns				.Visibility = Visibility.Hidden;
 				LBL_Rows				.Visibility = Visibility.Hidden;
-				LBL_Bombs				.Visibility = Visibility.Hidden;
 			}
 			checkCustomValues(BTN_BestScore, new RoutedEventArgs()); //Unused, but putting null twice as parameters causes a warning.
 		}
@@ -655,6 +652,9 @@ namespace MinesweeperWPF
 			}
 		}
 
-
+		private void LBL_Columns_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		{
+			LBL_UI.Content = "test";
+		}
 	}
 }
