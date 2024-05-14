@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using System.Xml.Linq;
+using System.Media;
 
 namespace MinesweeperWPF
 {
@@ -269,6 +270,15 @@ namespace MinesweeperWPF
 			if (gridValues[col][row] == IS_A_MINE)
 			{
 				gameDone = true;
+				try
+				{
+					SoundPlayer alarmSound = new SoundPlayer("explosion.wav");
+					alarmSound.Play();
+				} catch (Exception ex) {
+#if DEBUG
+					Trace.WriteLine("FILE ERROR:" + ex.ToString());
+#endif
+				}
 				tempGrid.Children.Add(getMineImage());
 				timer.Stop();
 				time = 0;
