@@ -187,7 +187,8 @@ namespace MinesweeperWPF
 			}
 
 			time = 0;
-
+			if (timer != null)
+				timer.Stop();
 			timer = new DispatcherTimer();
 			//Définit combien de secondes entre chaque déclenchement de l'événement Tick 
 			timer.Interval = TimeSpan.FromSeconds(1);
@@ -456,11 +457,11 @@ namespace MinesweeperWPF
 
 		private Label formatLabelGrid(int value)
 		{
-			Label label = new Label();
-			label.Content = value;
-			label.Foreground = new SolidColorBrush(chooseColor(value));
-			label.HorizontalAlignment = HorizontalAlignment.Center;
-			label.VerticalContentAlignment = VerticalAlignment.Center;
+			Label label						= new Label();
+			label.Content					= (value == 0 ? "" : value);
+			label.Foreground				= new SolidColorBrush(chooseColor(value));
+			label.HorizontalAlignment		= HorizontalAlignment.Center;
+			label.VerticalContentAlignment	= VerticalAlignment.Center;
 			return label;
 		}
 
@@ -585,7 +586,6 @@ namespace MinesweeperWPF
 				BTN_BestScore.Content = "Retour";
 				GRD_BestScore.Visibility = Visibility.Visible;
 				GRD_SubMenu.Visibility = Visibility.Hidden;
-
 				isOnBestScorePage = true;
 			} else {
 				BTN_BestScore.Content = "Temps";
