@@ -322,16 +322,16 @@ namespace MinesweeperWPF
 		{
 			switch (level)
 			{
-				case 0: return Colors.Black;
-				case 1: return Colors.OrangeRed;
-				case 2: return Colors.Purple;
-				case 3: return Colors.PaleVioletRed;
-				case 4: return Colors.MediumVioletRed;
-				case 5: return Colors.Red;
-				case 6: return Colors.Crimson;
-				case 7: return Colors.Red;
-				case 8: return Colors.DeepPink;
-				default: return Colors.Black;
+				case 0:		return Colors.Black;
+				case 1:		return Colors.OrangeRed;
+				case 2:		return Colors.Purple;
+				case 3:		return Colors.PaleVioletRed;
+				case 4:		return Colors.MediumVioletRed;
+				case 5:		return Colors.Red;
+				case 6:		return Colors.Crimson;
+				case 7:		return Colors.Red;
+				case 8:		return Colors.DeepPink;
+				default:	return Colors.Black;
 			}
 		}
 
