@@ -54,6 +54,8 @@
             <TextBox x:Name="TXT_Bombs" HorizontalAlignment="Left" VerticalContentAlignment="Center" Height="57" Margin="22,251,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="214" MaxLines="1" MaxLength="2" FontSize="36" TextChanged="checkCustomValues"/>
             <Label x:Name="LBL_Bombs" VerticalContentAlignment="Center" Content="bombes" HorizontalAlignment="Left" Height="57" Margin="68,251,0,0" VerticalAlignment="Top" Width="168" FontSize="36"/>
             <CheckBox x:Name="CHK_CustomBombNumber" Content="Nombre de bombes&#x0a;personnalisé" HorizontalAlignment="Left" Margin="22,194,0,0" VerticalAlignment="Top" Height="52" Width="214" Loaded="hidingDebugCheckbox" FontSize="14" Checked="checkCustomValues" Unchecked="checkCustomValues"/>
+            <ListBox x:Name="LST_BestScore" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="241,107,241,78"/>
+            <Button x:Name="BTN_BestScore" Content="Best Score" HorizontalAlignment="Left" Height="57" Margin="9,8,0,0" VerticalAlignment="Top" Width="169" Click="BTN_BestScore_Click"/>
         </Grid>
     </Grid>
 </Window>

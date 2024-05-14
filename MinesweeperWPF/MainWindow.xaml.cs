@@ -50,6 +50,8 @@ namespace MinesweeperWPF
 		private bool			gameDone = false;
 		private bool			customBombNumber = false;
 		private bool			menuLoadingDone = false;
+		private bool			isOnBestScorePage = false;
+		private int				time = 0;
 
 		public MainWindow()
 		{
@@ -224,9 +226,12 @@ namespace MinesweeperWPF
 					gridValues[col][row] = 0;
 #if DEBUG
 					if ((bool)CHK_DebugMode.IsChecked)
+					{
 						MessageBox.Show("DEBUG: You clicked on a mine on your first click. "
 							+ "Just like in the original game, it was then moved somewhere else"
 							+ ". This message only appears in Debug Mode.", "Debug Mode");
+						turnMinesRed();
+                    }
 #endif
 				}
 				generateMineMap();
@@ -391,8 +396,12 @@ namespace MinesweeperWPF
 			//Hiding the game, and showing Menu
 			GRDGame.Visibility = Visibility.Hidden;
 			GRD_Menu.Visibility = Visibility.Visible;
+			LST_BestScore.Visibility = Visibility.Hidden;
+			BTN_BestScore.Content = "Best Score";
+			isOnBestScorePage = false;
 
-			GRDGame.Children.Clear();
+
+            GRDGame.Children.Clear();
 		}
 
 		private Label formatLabelGrid(int value)
@@ -519,6 +528,19 @@ namespace MinesweeperWPF
 
 		}
 
+        private void BTN_BestScore_Click(object sender, RoutedEventArgs e)
+        {
+			if (!isOnBestScorePage) {
+				BTN_BestScore.Content = "Go back";
+				LST_BestScore.Visibility = Visibility.Visible;
 
-	}
+				isOnBestScorePage = true;
+            } else
+			{
+				BTN_BestScore.Content = "Best Scores";
+				LST_BestScore.Visibility = Visibility.Hidden;
+				isOnBestScorePage = false;
+			}
+        }
+    }
 }
