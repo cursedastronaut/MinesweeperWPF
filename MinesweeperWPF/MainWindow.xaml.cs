@@ -222,6 +222,12 @@ namespace MinesweeperWPF
 							gridValues[colNewMine][rowNewMine] = IS_A_MINE;
 					}
 					gridValues[col][row] = 0;
+#if DEBUG
+					if ((bool)CHK_DebugMode.IsChecked)
+						MessageBox.Show("DEBUG: You clicked on a mine on your first click. "
+							+ "Just like in the original game, it was then moved somewhere else"
+							+ ". This message only appears in Debug Mode.", "Debug Mode");
+#endif
 				}
 				generateMineMap();
 				firstClick = false;
@@ -488,12 +494,14 @@ namespace MinesweeperWPF
 				return;
 			}
 
-			/*
+			TXT_Bombs.IsEnabled = CHK_CustomBombNumber.IsChecked == true;
+
+            /*
 			I forbid bomb counts over 40% of the total cells number, just like in the Windows XP and Vista version
 			as pseudo-random mine generation may create a seemingly infinite (too long for user) loop, making it
 			looked like the program has crashed.
 			*/
-			try
+            try
 			{
 				BTN_Play.IsEnabled = !(
 						Int32.Parse(TXT_Columns.Text) <= 0 || Int32.Parse(TXT_Columns.Text) > MAX_CELLS_FACTOR || Int32.Parse(TXT_Rows.Text) <= 0 || Int32.Parse(TXT_Rows.Text) > MAX_CELLS_FACTOR

@@ -1,4 +1,14 @@
-﻿<Window x:Class="MinesweeperWPF.MainWindow"
+﻿<!-- Here are the additional features I've added:
+    - You can't click on a bomb first try. The program will move it.
+    - ESCAPE makes the program ask the user if they want to give up or quit
+    - Difficulty with textbox disabling
+    - Debug Mode that colors in red the tiles that there are bombs behind
+    - After losing, the map is fully discovered and the user can go back to the menu on his own
+    - In the upper left corner, there's both tiles left to discover, and flags.
+    - You can flag a tile, to prevent you from clicking on it. Use right click.
+    -->
+    
+    <Window x:Class="MinesweeperWPF.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
