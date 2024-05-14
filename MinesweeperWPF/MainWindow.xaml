@@ -6,6 +6,9 @@
     - After losing, the map is fully discovered and the user can go back to the menu on his own
     - In the upper left corner, there's both tiles left to discover, and flags.
     - You can flag a tile, to prevent you from clicking on it. Use right click.
+    - There's a timer in game
+    - Your times are being saved to best_scores.xml
+    - Your times are being loaded in the ListBox
     -->
     
     <Window x:Class="MinesweeperWPF.MainWindow"

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 //using System.Reflection.Emit;
@@ -11,6 +13,8 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
+using System.Xml.Linq;
 
 namespace MinesweeperWPF
 {
@@ -31,29 +35,30 @@ namespace MinesweeperWPF
 		private const bool DEBUG_MODE = false;
 #endif
 		//CONSTANTS
-		private const double	PERCENTAGE_OF_BOMBS_ALLOWED = 0.4;
-		private const int		PERCENTAGE_OF_BOMB = 10;
-		private const int		IS_A_MINE = 9;
-		private const int		MAX_CELLS_FACTOR = 50;
-		private const string	LBL_UI_DEFAULT_CONTENT = "Mon Super Démineur";
+		private const double	PERCENTAGE_OF_BOMBS_ALLOWED	= 0.4;
+		private const int		PERCENTAGE_OF_BOMB			= 10;
+		private const int		IS_A_MINE					= 9;
+		private const int		MAX_CELLS_FACTOR			= 50;
+		private const string	LBL_UI_DEFAULT_CONTENT		= "Mon Super Démineur";
+		private const string	FILEPATH_BEST_SCORES		= "best_scores.xml";
+		private const string	TWO_NUM_STRING_FORMAT		= "00";
 
-		//Difficulty list
-		private List<Tuple<string, int, int>> difficulties = new List<Tuple<string, int, int>>();
-
-		private int2			gridSize = new int2();
-		private int				numberOfBomb = 0;
-		private int				flagLeft = 0;
-		private int				flagTotal = 0;
-		private int				numberOfCellsLeft = 0;
-		private List<List<int>>	gridValues = new List<List<int>>(); //0: no bomb, 9 = bomb here
-		private bool			firstClick = false;
-		private bool			gameDone = false;
-		private bool			customBombNumber = false;
-		private bool			menuLoadingDone = false;
-		private bool			isOnBestScorePage = false;
-		private int				time = 0;
-
-		public MainWindow()
+        //Difficulty list
+        private List<Tuple<string, int, int>>	difficulties				= new List<Tuple<string, int, int>>();
+		private int2							gridSize					= new int2();
+		private int								numberOfBomb				= 0;
+		private int								flagLeft					= 0;
+		private int								flagTotal					= 0;
+		private int								numberOfCellsLeft			= 0;
+		private List<List<int>>					gridValues					= new List<List<int>>(); //0: no bomb, 9 = bomb here
+		private bool							firstClick					= false;
+		private bool							gameDone					= false;
+		private bool							customBombNumber			= false;
+		private bool							menuLoadingDone				= false;
+		private bool							isOnBestScorePage			= false;
+		private int								time						= 0;
+        private DispatcherTimer					timer;
+        public MainWindow()
 		{
 			InitializeComponent();
 			difficulties.Add(new Tuple<string, int, int>("Débutant (9x9)",		9,	9));
@@ -101,7 +106,7 @@ namespace MinesweeperWPF
 				{
 					gridSize.x = Int32.Parse(TXT_Columns.Text);
 					gridSize.y = Int32.Parse(TXT_Rows.Text);
-					customBombNumber = (bool)CHK_CustomBombNumber.IsChecked;
+					customBombNumber = (bool)(CHK_CustomBombNumber.IsChecked == null ? false : CHK_CustomBombNumber.IsChecked);
 					if (customBombNumber)
 						numberOfBomb = Int32.Parse(TXT_Bombs.Text);
 					/*
@@ -116,6 +121,9 @@ namespace MinesweeperWPF
 						throw new Exception();
 				} catch (Exception ex)
 				{
+#if DEBUG //We don't want the function name in Release.
+					Trace.WriteLine("USER Exception: " + ex.ToString() + "\n\tCaught in BTN_Play_Click");
+#endif
 					LBL_UI.Content = "Nombre incorrect! Taille: " + (MAX_CELLS_FACTOR + 1) + ". Bombes: Entre 0 et " + ((gridSize.x * gridSize.y) * PERCENTAGE_OF_BOMBS_ALLOWED) + " (colonnes x lignes x 0.4).";
 					return;
 				}
@@ -132,7 +140,7 @@ namespace MinesweeperWPF
 			updateUI();
 #if DEBUG
 			//Not casting will cause an error.
-			if ((bool)CHK_DebugMode.IsChecked)
+			if ((bool)(CHK_DebugMode.IsChecked == null ? false : CHK_DebugMode.IsChecked))
 				turnMinesRed();
 #endif
 		}
@@ -176,12 +184,30 @@ namespace MinesweeperWPF
 					gridValues[i].Add(0);
 				}
 			}
-		}
+
+			time = 0;
+
+            timer = new DispatcherTimer();
+            //Définit combien de secondes entre chaque déclenchement de l'événement Tick 
+            timer.Interval = TimeSpan.FromSeconds(1);
+            //Associe une procédure événementielle à l'événement Tick du Timer, il vous faut écrire cette procédure événementielle
+            timer.Tick += timeUpdate;
+            //Lance le Timer, obligatoire sinon rien ne se passe
+            timer.Start();
+
+        }
+
+		private void timeUpdate(object sender, EventArgs e)
+		{
+			time++;
+			updateUI();
+
+        }
 
 		private void BTN_Flag(object sender, RoutedEventArgs e)
 		{
 			Button button = (Button)sender;
-			if (button.Content == "🚩")
+			if ((string)button.Content == "🚩") //Must be cast, or it causes a warning.
 			{
 				flagLeft++;
 				button.Content = "";
@@ -196,7 +222,7 @@ namespace MinesweeperWPF
 			if (gameDone) { }
 			updateUI();
 			Button button = (Button)sender;
-			if (button.Content == "🚩")
+			if ((string)button.Content == "🚩") //Must be cast or it causes a warning.
 				return;
 
 
@@ -225,7 +251,7 @@ namespace MinesweeperWPF
 					}
 					gridValues[col][row] = 0;
 #if DEBUG
-					if ((bool)CHK_DebugMode.IsChecked)
+					if ((bool)(CHK_DebugMode.IsChecked == null ? false : CHK_DebugMode.IsChecked))
 					{
 						MessageBox.Show("DEBUG: You clicked on a mine on your first click. "
 							+ "Just like in the original game, it was then moved somewhere else"
@@ -244,6 +270,8 @@ namespace MinesweeperWPF
 			{
 				gameDone = true;
 				tempGrid.Children.Add(getMineImage());
+				timer.Stop();
+				time = 0;
 				LBL_UI.Content = "Vous avez perdu! Appuyez sur ENTRÉE pour revenir au menu principal.";
 				MessageBox.Show("Dommage, vous avez perdu...", "Démineur");
 				discoverAllTiles();
@@ -264,7 +292,15 @@ namespace MinesweeperWPF
 				}
 				if (numberOfCellsLeft <= 0)
 				{
-					LBL_UI.Content = "Vous avez gagné! Appuyez sur ENTRÉE pour revenir au menu principal.";
+                    timer.Stop();
+					LST_BestScore.Items.Add(
+						(time / 60).ToString(TWO_NUM_STRING_FORMAT) + ":" + (time % 60).ToString(TWO_NUM_STRING_FORMAT)
+						+ "  -  " + gridSize.x + "x" + gridSize.y
+						+ "  -  " + numberOfBomb + " bombes."
+					);
+					WriteScore();
+                    time = 0;
+                    LBL_UI.Content = "Vous avez gagné! Appuyez sur ENTRÉE pour revenir au menu principal.";
 					MessageBox.Show("Félicitations, vous avez gagné!", "Démineur");
 					discoverAllTiles();
 					gameDone = true;
@@ -364,7 +400,7 @@ namespace MinesweeperWPF
 					Grid tempGrid = (Grid)border.Child;
 					Button button = (Button)tempGrid.Children[0];
 					BrushConverter bc = new BrushConverter();
-					button.Background = (Brush)bc.ConvertFrom("#FF0000");
+					button.Background = (Brush)bc.ConvertFrom("#FF0000"); //It will always cause a warning.
 				}
 			}
 			LBL_UI.Content = numberOfCellsLeft;
@@ -374,7 +410,8 @@ namespace MinesweeperWPF
 		private void updateUI()
 		{
 			LBL_UI.Content = "Cases restantes: " + numberOfCellsLeft + "/" + (gridSize.x * gridSize.y - numberOfBomb)
-					+ "   Drapeaux: " + flagLeft + "/" + flagTotal + "   ";
+					+ "   Drapeaux: " + flagLeft + "/" + flagTotal
+					+ "   Temps: " + (time / 60).ToString(TWO_NUM_STRING_FORMAT) + ":" + (time % 60).ToString(TWO_NUM_STRING_FORMAT);
 		}
 
 		private void reset()
@@ -390,11 +427,15 @@ namespace MinesweeperWPF
 			flagLeft			= 0;
 			flagTotal			= 0;
 			numberOfCellsLeft	= 0;
-			gridValues = new List<List<int>>(); //0: no bomb, 9 = bomb here
-			firstClick = false; //Shouldn't be an issue since it would be false after first click, just in case I resetted it.
+			gridValues			= new List<List<int>>(); //0: no bomb, 9 = bomb here
+			isOnBestScorePage	= false;
+			firstClick			= false; //Shouldn't be an issue since it would be false after first click, just in case I resetted it.
+            time				= 0;
+			
+			LoadScoresToListBox();
 
-			//Hiding the game, and showing Menu
-			GRDGame.Visibility = Visibility.Hidden;
+            //Hiding the game, and showing Menu
+            GRDGame.Visibility = Visibility.Hidden;
 			GRD_Menu.Visibility = Visibility.Visible;
 			LST_BestScore.Visibility = Visibility.Hidden;
 			BTN_BestScore.Content = "Best Score";
@@ -446,7 +487,7 @@ namespace MinesweeperWPF
 				LBL_Rows				.Visibility = Visibility.Hidden;
 				LBL_Bombs				.Visibility = Visibility.Hidden;
 			}
-			checkCustomValues(null, null);
+			checkCustomValues(BTN_BestScore, new RoutedEventArgs()); //Unused, but putting null twice as parameters causes a warning.
 		}
 
 		//Hides the debug mode checkbox if it's not debug mode. Even if someone were to hack the binaries
@@ -454,6 +495,7 @@ namespace MinesweeperWPF
 		//would continue without caring.
 		private void hidingDebugCheckbox(object sender, RoutedEventArgs e)
 		{
+			//Causes a warning, but since there is not #if DEBUG in XAML, I must do this in userspace.
 			if (!DEBUG_MODE) CHK_DebugMode.Visibility = Visibility.Hidden;
 		}
 
@@ -514,11 +556,14 @@ namespace MinesweeperWPF
 			{
 				BTN_Play.IsEnabled = !(
 						Int32.Parse(TXT_Columns.Text) <= 0 || Int32.Parse(TXT_Columns.Text) > MAX_CELLS_FACTOR || Int32.Parse(TXT_Rows.Text) <= 0 || Int32.Parse(TXT_Rows.Text) > MAX_CELLS_FACTOR
-						|| ((bool)CHK_CustomBombNumber.IsChecked && Int32.Parse(TXT_Bombs.Text) <= 0)
-						|| ((bool)CHK_CustomBombNumber.IsChecked && ((double)Int32.Parse(TXT_Bombs.Text) > ((Int32.Parse(TXT_Columns.Text) * Int32.Parse(TXT_Rows.Text)) * PERCENTAGE_OF_BOMBS_ALLOWED))) //see comment above
+						|| ((bool)(CHK_CustomBombNumber.IsChecked  == null ? false : CHK_CustomBombNumber.IsChecked )&& Int32.Parse(TXT_Bombs.Text) <= 0)
+						|| ((bool)(CHK_CustomBombNumber.IsChecked  == null ? false : CHK_CustomBombNumber.IsChecked )&& ((double)Int32.Parse(TXT_Bombs.Text) > ((Int32.Parse(TXT_Columns.Text) * Int32.Parse(TXT_Rows.Text)) * PERCENTAGE_OF_BOMBS_ALLOWED))) //see comment above
 				);
 				LBL_UI.Content = "Nombre incorrect! Taille: " + (MAX_CELLS_FACTOR) + ". Bombes: Entre 0 et " + (PERCENTAGE_OF_BOMBS_ALLOWED * 100) + "% de colonnes x lignes.";
 			} catch (Exception ex) {
+#if DEBUG
+				Trace.WriteLine("USER Exception: " + ex.ToString() + "\n\tCaught in BTN_Play_Click");
+#endif
 				LBL_UI.Content = "Veuillez entrer un nombre valide.";
 				BTN_Play.IsEnabled = false;
 			}
@@ -542,5 +587,72 @@ namespace MinesweeperWPF
 				isOnBestScorePage = false;
 			}
         }
+
+		public void WriteScore()
+		{
+			// Create XML element
+			var scoreElement = new XElement("score",
+				new XElement("timeMinutes", time / 60),
+				new XElement("timeSeconds", time % 60),
+				new XElement("gridSizeX", gridSize.x),
+				new XElement("gridSizeY", gridSize.y),
+				new XElement("numberOfBombs", numberOfBomb)
+			);
+
+			// Load existing XML file or create a new one if it doesn't exist
+			XElement scoresXml;
+			if (File.Exists(FILEPATH_BEST_SCORES))
+			{
+				scoresXml = XElement.Load(FILEPATH_BEST_SCORES);
+			}
+			else
+			{
+				scoresXml = new XElement("scores");
+			}
+
+			// Add the new score element to the XML
+			scoresXml.Add(scoreElement);
+
+			// Save the XML back to the file
+			scoresXml.Save(FILEPATH_BEST_SCORES);
+		}
+
+        public void LoadScoresToListBox()
+        {
+            // Clear existing items in the ListBox
+            LST_BestScore.Items.Clear();
+
+            // Load existing XML file
+            if (File.Exists(FILEPATH_BEST_SCORES))
+            {
+                XElement scoresXml = XElement.Load(FILEPATH_BEST_SCORES);
+
+                // Iterate through each score element and add it to the ListBox
+                foreach (var scoreElement in scoresXml.Elements("score"))
+                {
+					try
+					{
+						int timeMinutes = int.Parse(scoreElement.Element("timeMinutes").Value);
+						int timeSeconds = int.Parse(scoreElement.Element("timeSeconds").Value);
+						int gridSizeX = int.Parse(scoreElement.Element("gridSizeX").Value);
+						int gridSizeY = int.Parse(scoreElement.Element("gridSizeY").Value);
+						int numberOfBombs = int.Parse(scoreElement.Element("numberOfBombs").Value);
+						LST_BestScore.Items.Add(
+							"" + timeMinutes.ToString(TWO_NUM_STRING_FORMAT) + ":" + timeSeconds.ToString(TWO_NUM_STRING_FORMAT)
+							+ "  -  " + gridSizeX.ToString(TWO_NUM_STRING_FORMAT) + "x" + gridSizeY.ToString(TWO_NUM_STRING_FORMAT)
+							+ "  -  " + numberOfBombs.ToString(TWO_NUM_STRING_FORMAT) + " bombes."
+						);
+
+					} catch (Exception ex) {
+#if DEBUG
+						Trace.WriteLine("LOAD Exception: " + ex.ToString() + "\n\tCaught in FILEPATH_BEST_SCORE");
+#endif
+					}
+
+                }
+            }
+        }
+
+
     }
 }
