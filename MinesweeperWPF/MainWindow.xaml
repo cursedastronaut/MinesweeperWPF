@@ -20,12 +20,32 @@
 		xmlns:local="clr-namespace:MinesweeperWPF"
 		mc:Ignorable="d"
 		Title="Minesweeper" Height="450" Width="800">
+
+	
 	<Grid>
+		
 		<Grid.RowDefinitions>
 			<RowDefinition Height="30"/>
 			<RowDefinition Height="*"/>
 		</Grid.RowDefinitions>
 		<Label x:Name="LBL_UI" Content="Mon Super Démineur" Grid.Row="0"/>
+		<DockPanel>
+			<Menu DockPanel.Dock="Top">
+				<MenuItem Header="_Jeu">
+					<MenuItem Header="_Nouvelle partie" Click="MNI_New"/>
+					<Separator />
+					<MenuItem Header="_Exit" Click="MNI_Exit_Click"/>
+				</MenuItem>
+				<MenuItem Header="_Options">
+					<MenuItem x:Name="MNI_Sound" IsCheckable="True" Header="Son" IsChecked="True">
+					</MenuItem>
+				</MenuItem>
+				<MenuItem Header="Help">
+					<MenuItem Header="Content" Click="MNI_Help_Content_Click">
+					</MenuItem>
+				</MenuItem>
+			</Menu>
+		</DockPanel>
 		<Grid x:Name="GRDGame" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="AliceBlue" Grid.Row="1">
 
 		</Grid>
@@ -59,7 +79,7 @@
 				<CheckBox x:Name="CHK_DebugMode" Content="Debug Mode" Margin="0,0,10,10" Loaded="hidingDebugCheckbox" Height="17" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="94"/>
 				<TextBox x:Name="TXT_Columns" VerticalContentAlignment="Center" Height="57" Margin="0,0,10,173" TextWrapping="Wrap" Text="10" VerticalAlignment="Bottom" MaxLines="1" MaxLength="5" FontSize="36" TextChanged="checkCustomValues" HorizontalAlignment="Right" Width="214"/>
 				<TextBox x:Name="TXT_Rows" VerticalContentAlignment="Center" Margin="0,0,10,78" TextWrapping="Wrap" Text="10" MaxLines="1" MaxLength="5" FontSize="36" TextChanged="checkCustomValues" Height="57" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="214"/>
-				<Label x:Name="LBL_Columns" VerticalContentAlignment="Center" Content="Colonnes" Height="28" Margin="0,0,10,230" VerticalAlignment="Bottom" FontSize="14" MouseLeftButtonDown="LBL_Columns_MouseLeftButtonDown" Foreground="White" HorizontalAlignment="Right" Width="214"/>
+				<Label x:Name="LBL_Columns" VerticalContentAlignment="Center" Content="Colonnes" Height="28" Margin="0,0,10,230" VerticalAlignment="Bottom" FontSize="14" Foreground="White" HorizontalAlignment="Right" Width="214"/>
 				<Label x:Name="LBL_Rows" VerticalContentAlignment="Center" Content="Lignes" Height="38" Margin="0,0,10,135" VerticalAlignment="Bottom" FontSize="14" Foreground="White" HorizontalAlignment="Right" Width="214"/>
 				<TextBox x:Name="TXT_Bombs" VerticalContentAlignment="Center" Margin="22,0,0,81" TextWrapping="Wrap" Text="10" MaxLines="1" MaxLength="5" FontSize="36" TextChanged="checkCustomValues" HorizontalAlignment="Left" Width="214" Height="57" VerticalAlignment="Bottom"/>
 				<CheckBox x:Name="CHK_CustomBombNumber" Content="Nombre de bombes&#x0a;personnalisé" Margin="22,0,0,138" Loaded="hidingDebugCheckbox" FontSize="14" Checked="checkCustomValues" Unchecked="checkCustomValues" Foreground="White" Height="52" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="214"/>
@@ -74,6 +94,8 @@
 					</Style>
 				</Button.Resources>
 			</Button>
+			
 		</Grid>
 	</Grid>
+	
 </Window>

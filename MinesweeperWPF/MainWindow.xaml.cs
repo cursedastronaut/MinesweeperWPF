@@ -100,6 +100,15 @@ namespace MinesweeperWPF
 			return g.Children.Cast<UIElement>().First(e => Grid.GetRow(e) == row && Grid.GetColumn(e) == col);
 		}
 
+		private void MNI_New(object sender, RoutedEventArgs e)
+		{
+			if (gridSize.x > 0) //Since it gets reset, it's a good way to know whether we're in game or not.
+			{
+				if (MessageBox.Show("Souhaitez-vous abandonner ?", "Démineur", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+					reset();
+			}
+		}
+
 		private void BTN_Play_Click(object sender, RoutedEventArgs e)
 		{
 			if (LST_Difficulties.SelectedIndex == (difficulties.Count - 1)) {
@@ -270,15 +279,19 @@ namespace MinesweeperWPF
 			if (gridValues[col][row] == IS_A_MINE)
 			{
 				gameDone = true;
-				try
+				if (MNI_Sound.IsChecked)
 				{
-					SoundPlayer alarmSound = new SoundPlayer("explosion.wav");
-					alarmSound.Play();
-				} catch (Exception ex) {
+					try
+					{
+						SoundPlayer explosionSound = new SoundPlayer("explosion.wav");
+						explosionSound.Play();
+					} catch (Exception ex) {
 #if DEBUG
-					Trace.WriteLine("FILE ERROR:" + ex.ToString());
-#endif 
+						Trace.WriteLine("FILE ERROR:" + ex.ToString());
+#endif
+					}
 				}
+				
 				tempGrid.Children.Add(getMineImage());
 				timer.Stop();
 				time = 0;
@@ -566,12 +579,15 @@ namespace MinesweeperWPF
 						|| ((bool)(CHK_CustomBombNumber.IsChecked  == null ? false : CHK_CustomBombNumber.IsChecked )&& Int32.Parse(TXT_Bombs.Text) <= 0)
 						|| ((bool)(CHK_CustomBombNumber.IsChecked  == null ? false : CHK_CustomBombNumber.IsChecked )&& ((double)Int32.Parse(TXT_Bombs.Text) > ((Int32.Parse(TXT_Columns.Text) * Int32.Parse(TXT_Rows.Text)) * PERCENTAGE_OF_BOMBS_ALLOWED))) //see comment above
 				);
-				LBL_UI.Content = "Nombre incorrect! Taille: " + (MAX_CELLS_FACTOR) + ". Bombes: Entre 0 et " + (PERCENTAGE_OF_BOMBS_ALLOWED * 100) + "% de colonnes x lignes.";
+				LBL_UI.Content =
+					EveryString.MENU_INCORRECT_NUMBER_SIZE + (MAX_CELLS_FACTOR)
+					+ EveryString.MENU_INCORRECT_NUMBER_BOMBS
+					+ (PERCENTAGE_OF_BOMBS_ALLOWED * 100) + EveryString.MENU_INCORRECT_NUMBER_PERCENT;
 			} catch (Exception ex) {
 #if DEBUG
 				Trace.WriteLine("USER Exception: " + ex.ToString() + "\n\tCaught in BTN_Play_Click");
 #endif
-				LBL_UI.Content = "Veuillez entrer un nombre valide.";
+				LBL_UI.Content = EveryString.MENU_INCORRECT_NUMBER_NOTVALID;
 				BTN_Play.IsEnabled = false;
 			}
 
@@ -583,12 +599,12 @@ namespace MinesweeperWPF
 		private void BTN_BestScore_Click(object sender, RoutedEventArgs e)
 		{
 			if (!isOnBestScorePage) {
-				BTN_BestScore.Content = "Retour";
+				BTN_BestScore.Content = EveryString.MENU_BACK;
 				GRD_BestScore.Visibility = Visibility.Visible;
 				GRD_SubMenu.Visibility = Visibility.Hidden;
 				isOnBestScorePage = true;
 			} else {
-				BTN_BestScore.Content = "Temps";
+				BTN_BestScore.Content = EveryString.MENU_TIMES;
 				GRD_BestScore.Visibility = Visibility.Hidden;
 				GRD_SubMenu.Visibility = Visibility.Visible;
 				isOnBestScorePage = false;
@@ -660,9 +676,15 @@ namespace MinesweeperWPF
 			}
 		}
 
-		private void LBL_Columns_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		private void MNI_Help_Content_Click(object sender, RoutedEventArgs e)
 		{
-			LBL_UI.Content = "test";
+			MessageBox.Show(EveryString.HELP_CONTENT, EveryString.HELP_TITLE, MessageBoxButton.OK, MessageBoxImage.Information);
+		}
+
+		private void MNI_Exit_Click(object sender, RoutedEventArgs e)
+		{
+			if (MessageBox.Show(EveryString.POPUP_QUIT_CONFIRMATION, EveryString.POPUP_QUIT_TITLE, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+				Application.Current.Shutdown();
 		}
 	}
 }
