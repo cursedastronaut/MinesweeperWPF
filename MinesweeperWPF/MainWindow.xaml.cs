@@ -43,8 +43,8 @@ namespace MinesweeperWPF
 		private const string	FILEPATH_BEST_SCORES		= "best_scores.xml";
 		private const string	TWO_NUM_STRING_FORMAT		= "00";
 
-        //Difficulty list
-        private List<Tuple<string, int, int>>	difficulties				= new List<Tuple<string, int, int>>();
+		//Difficulty list
+		private List<Tuple<string, int, int>>	difficulties				= new List<Tuple<string, int, int>>();
 		private int2							gridSize					= new int2();
 		private int								numberOfBomb				= 0;
 		private int								flagLeft					= 0;
@@ -57,8 +57,8 @@ namespace MinesweeperWPF
 		private bool							menuLoadingDone				= false;
 		private bool							isOnBestScorePage			= false;
 		private int								time						= 0;
-        private DispatcherTimer					timer;
-        public MainWindow()
+		private DispatcherTimer					timer;
+		public MainWindow()
 		{
 			InitializeComponent();
 			difficulties.Add(new Tuple<string, int, int>("Débutant (9x9)",		9,	9));
@@ -187,22 +187,22 @@ namespace MinesweeperWPF
 
 			time = 0;
 
-            timer = new DispatcherTimer();
-            //Définit combien de secondes entre chaque déclenchement de l'événement Tick 
-            timer.Interval = TimeSpan.FromSeconds(1);
-            //Associe une procédure événementielle à l'événement Tick du Timer, il vous faut écrire cette procédure événementielle
-            timer.Tick += timeUpdate;
-            //Lance le Timer, obligatoire sinon rien ne se passe
-            timer.Start();
+			timer = new DispatcherTimer();
+			//Définit combien de secondes entre chaque déclenchement de l'événement Tick 
+			timer.Interval = TimeSpan.FromSeconds(1);
+			//Associe une procédure événementielle à l'événement Tick du Timer, il vous faut écrire cette procédure événementielle
+			timer.Tick += timeUpdate;
+			//Lance le Timer, obligatoire sinon rien ne se passe
+			timer.Start();
 
-        }
+		}
 
 		private void timeUpdate(object sender, EventArgs e)
 		{
 			time++;
 			updateUI();
 
-        }
+		}
 
 		private void BTN_Flag(object sender, RoutedEventArgs e)
 		{
@@ -257,7 +257,7 @@ namespace MinesweeperWPF
 							+ "Just like in the original game, it was then moved somewhere else"
 							+ ". This message only appears in Debug Mode.", "Debug Mode");
 						turnMinesRed();
-                    }
+					}
 #endif
 				}
 				generateMineMap();
@@ -292,15 +292,15 @@ namespace MinesweeperWPF
 				}
 				if (numberOfCellsLeft <= 0)
 				{
-                    timer.Stop();
+					timer.Stop();
 					LST_BestScore.Items.Add(
 						(time / 60).ToString(TWO_NUM_STRING_FORMAT) + ":" + (time % 60).ToString(TWO_NUM_STRING_FORMAT)
 						+ "  -  " + gridSize.x + "x" + gridSize.y
 						+ "  -  " + numberOfBomb + " bombes."
 					);
 					WriteScore();
-                    time = 0;
-                    LBL_UI.Content = "Vous avez gagné! Appuyez sur ENTRÉE pour revenir au menu principal.";
+					time = 0;
+					LBL_UI.Content = "Vous avez gagné! Appuyez sur ENTRÉE pour revenir au menu principal.";
 					MessageBox.Show("Félicitations, vous avez gagné!", "Démineur");
 					discoverAllTiles();
 					gameDone = true;
@@ -430,19 +430,20 @@ namespace MinesweeperWPF
 			gridValues			= new List<List<int>>(); //0: no bomb, 9 = bomb here
 			isOnBestScorePage	= false;
 			firstClick			= false; //Shouldn't be an issue since it would be false after first click, just in case I resetted it.
-            time				= 0;
+			time				= 0;
 			
 			LoadScoresToListBox();
 
-            //Hiding the game, and showing Menu
-            GRDGame.Visibility = Visibility.Hidden;
+			//Hiding the game, and showing Menu
+			GRDGame.Visibility = Visibility.Hidden;
 			GRD_Menu.Visibility = Visibility.Visible;
-			LST_BestScore.Visibility = Visibility.Hidden;
+			GRD_SubMenu.Visibility = Visibility.Visible;
+			GRD_BestScore.Visibility = Visibility.Hidden;
 			BTN_BestScore.Content = "Best Score";
 			isOnBestScorePage = false;
 
 
-            GRDGame.Children.Clear();
+			GRDGame.Children.Clear();
 		}
 
 		private Label formatLabelGrid(int value)
@@ -547,12 +548,12 @@ namespace MinesweeperWPF
 
 			TXT_Bombs.IsEnabled = CHK_CustomBombNumber.IsChecked == true;
 
-            /*
+			/*
 			I forbid bomb counts over 40% of the total cells number, just like in the Windows XP and Vista version
 			as pseudo-random mine generation may create a seemingly infinite (too long for user) loop, making it
 			looked like the program has crashed.
 			*/
-            try
+			try
 			{
 				BTN_Play.IsEnabled = !(
 						Int32.Parse(TXT_Columns.Text) <= 0 || Int32.Parse(TXT_Columns.Text) > MAX_CELLS_FACTOR || Int32.Parse(TXT_Rows.Text) <= 0 || Int32.Parse(TXT_Rows.Text) > MAX_CELLS_FACTOR
@@ -573,20 +574,21 @@ namespace MinesweeperWPF
 
 		}
 
-        private void BTN_BestScore_Click(object sender, RoutedEventArgs e)
-        {
+		private void BTN_BestScore_Click(object sender, RoutedEventArgs e)
+		{
 			if (!isOnBestScorePage) {
 				BTN_BestScore.Content = "Go back";
-				LST_BestScore.Visibility = Visibility.Visible;
+				GRD_BestScore.Visibility = Visibility.Visible;
+				GRD_SubMenu.Visibility = Visibility.Hidden;
 
 				isOnBestScorePage = true;
-            } else
-			{
+			} else {
 				BTN_BestScore.Content = "Best Scores";
-				LST_BestScore.Visibility = Visibility.Hidden;
+				GRD_BestScore.Visibility = Visibility.Hidden;
+				GRD_SubMenu.Visibility = Visibility.Visible;
 				isOnBestScorePage = false;
 			}
-        }
+		}
 
 		public void WriteScore()
 		{
@@ -617,19 +619,19 @@ namespace MinesweeperWPF
 			scoresXml.Save(FILEPATH_BEST_SCORES);
 		}
 
-        public void LoadScoresToListBox()
-        {
-            // Clear existing items in the ListBox
-            LST_BestScore.Items.Clear();
+		public void LoadScoresToListBox()
+		{
+			// Clear existing items in the ListBox
+			LST_BestScore.Items.Clear();
 
-            // Load existing XML file
-            if (File.Exists(FILEPATH_BEST_SCORES))
-            {
-                XElement scoresXml = XElement.Load(FILEPATH_BEST_SCORES);
+			// Load existing XML file
+			if (File.Exists(FILEPATH_BEST_SCORES))
+			{
+				XElement scoresXml = XElement.Load(FILEPATH_BEST_SCORES);
 
-                // Iterate through each score element and add it to the ListBox
-                foreach (var scoreElement in scoresXml.Elements("score"))
-                {
+				// Iterate through each score element and add it to the ListBox
+				foreach (var scoreElement in scoresXml.Elements("score"))
+				{
 					try
 					{
 						int timeMinutes = int.Parse(scoreElement.Element("timeMinutes").Value);
@@ -649,10 +651,10 @@ namespace MinesweeperWPF
 #endif
 					}
 
-                }
-            }
-        }
+				}
+			}
+		}
 
 
-    }
+	}
 }
