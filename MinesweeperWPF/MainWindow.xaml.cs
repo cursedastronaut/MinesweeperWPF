@@ -582,13 +582,13 @@ namespace MinesweeperWPF
 		private void BTN_BestScore_Click(object sender, RoutedEventArgs e)
 		{
 			if (!isOnBestScorePage) {
-				BTN_BestScore.Content = "Go back";
+				BTN_BestScore.Content = "Retour";
 				GRD_BestScore.Visibility = Visibility.Visible;
 				GRD_SubMenu.Visibility = Visibility.Hidden;
 
 				isOnBestScorePage = true;
 			} else {
-				BTN_BestScore.Content = "Best Scores";
+				BTN_BestScore.Content = "Temps";
 				GRD_BestScore.Visibility = Visibility.Hidden;
 				GRD_SubMenu.Visibility = Visibility.Visible;
 				isOnBestScorePage = false;
@@ -639,11 +639,11 @@ namespace MinesweeperWPF
 				{
 					try
 					{
-						int timeMinutes = int.Parse(scoreElement.Element("timeMinutes").Value);
-						int timeSeconds = int.Parse(scoreElement.Element("timeSeconds").Value);
-						int gridSizeX = int.Parse(scoreElement.Element("gridSizeX").Value);
-						int gridSizeY = int.Parse(scoreElement.Element("gridSizeY").Value);
-						int numberOfBombs = int.Parse(scoreElement.Element("numberOfBombs").Value);
+						int timeMinutes =	int.Parse(scoreElement.Element("timeMinutes")	.Value);
+						int timeSeconds =	int.Parse(scoreElement.Element("timeSeconds")	.Value);
+						int gridSizeX =		int.Parse(scoreElement.Element("gridSizeX")		.Value);
+						int gridSizeY =		int.Parse(scoreElement.Element("gridSizeY")		.Value);
+						int numberOfBombs = int.Parse(scoreElement.Element("numberOfBombs")	.Value);
 						LST_BestScore.Items.Add(
 							"" + timeMinutes.ToString(TWO_NUM_STRING_FORMAT) + ":" + timeSeconds.ToString(TWO_NUM_STRING_FORMAT)
 							+ "  -  " + gridSizeX.ToString(TWO_NUM_STRING_FORMAT) + "x" + gridSizeY.ToString(TWO_NUM_STRING_FORMAT)
