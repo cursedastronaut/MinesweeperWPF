@@ -277,7 +277,7 @@ namespace MinesweeperWPF
 				} catch (Exception ex) {
 #if DEBUG
 					Trace.WriteLine("FILE ERROR:" + ex.ToString());
-#endif
+#endif 
 				}
 				tempGrid.Children.Add(getMineImage());
 				timer.Stop();

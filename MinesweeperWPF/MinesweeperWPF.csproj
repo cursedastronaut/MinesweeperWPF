@@ -5,10 +5,25 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <SignAssembly>False</SignAssembly>
+    <PackageIcon>mine.png</PackageIcon>
+    <NeutralLanguage>fr</NeutralLanguage>
+    <ApplicationIcon>mine.ico</ApplicationIcon>
   </PropertyGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy ..\resources\mine.png bin\Debug\net6.0-windows&#xD;&#xA;copy ..\resources\mine.png bin\Release\net6.0-windows&#xD;&#xA;copy ..\resources\explosion.wav bin\Debug\net6.0-windows&#xD;&#xA;copy ..\resources\explosion.wav bin\Release\net6.0-windows" />
+    <Exec Command="copy ..\resources\* bin\Debug\net6.0-windows&#xD;&#xA;copy ..\resources\* bin\Release\net6.0-windows" />
   </Target>
+
+  <ItemGroup>
+    <Content Include="mine.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\resources\mine.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
 </Project>
