@@ -220,7 +220,6 @@ namespace MinesweeperWPF
 
 		private void BTN_Discover(object sender, RoutedEventArgs e)
 		{
-			if (gameDone) { }
 			updateUI();
 			Button button = (Button)sender;
 			if ((string)button.Content == "🚩") //Must be cast or it causes a warning.
